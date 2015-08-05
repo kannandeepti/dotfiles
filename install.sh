@@ -13,7 +13,7 @@ fi
 #echo "$MY_PATH"
 
 printf "About to replace the dotfiles in \n\t\t$HOME\n"
-printf "with their equivalents in \n\t\t$MY_PATH.\n\n"
+printf "with their equivalents in \n\t\t$MY_PATH/dotfiles\n\n"
 printf "Are you sure? (Type 'please yes' to continue): "
 read please yes
 if [[ ( ! -v please ) || "$please" != "please" || \
@@ -23,13 +23,15 @@ if [[ ( ! -v please ) || "$please" != "please" || \
 fi
 
 # now thanks to directory's naming convention, we can drop in symlinks as needed
-for file in `ls`; do
+for file in `ls dotfiles`; do
     linkname="$HOME/.$file"
-    target="$MY_PATH/$file"
+    target="$MY_PATH/dotfiles/$file"
     if [[ -e "$linkname" ]]; then
         printf "Deleting old dotfile: %s\n" $linkname
+        rm -rf "$linkname"
     fi
     printf "Creating symlink: %s -> %s\n" $linkname $target
+    ln -s "$target" "$linkname"
 done
 
 
