@@ -1,5 +1,7 @@
-vim/temp_dirs
-vim/bundle
-ipython/profile_default/security
-ipython/profile_default/log
+dotfiles/vim/temp_dirs
+dotfiles/vim/bundle
+dotfiles/ipython/profile_default/security
+dotfiles/ipython/profile_default/log
 *.sqlite
+dotfiles/xmonad/xmonad*
+!dotfiles/xmonad/xmonad.hs

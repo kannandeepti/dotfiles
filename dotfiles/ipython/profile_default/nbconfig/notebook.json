@@ -1,0 +1,6 @@
+{
+  "load_extensions": {
+    "IPython-notebook-extensions/usability/codefolding/main": true,
+    "IPython-notebook-extensions/usability/chrome-clipboard/main": true
+  }
+}
