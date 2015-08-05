@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# fuck java, and its hardcoded bullshit
+export _JAVA_AWT_WM_NONREPARENTING=1
+# but for real. fuck java
+wmname LG3D
+
+# and make sure that ibus works in QT4 apps with
+export GTK_IM_MODULE=ibus
+export XMODIFIERS="@im=ibus"
+export XIM_PROGRAM=/usr/bin/ibus-daemon
+export XIM_ARGS="--xim"
+export QT_IM_MODULE=ibus
+ibus-daemon -drx
+
+# Detect and configure touchpad if present
+if egrep -iq 'touchpad' /proc/bus/input/devices; then
+    synclient VertTwoFingerScroll=1
+    # fuck tap to click
+    synclient TapButton1=0 TapButton2=0 TapButton3=0 &
+    # three-finger = two-finger click
+    synclient MaxTapTime=0 ClickFinger3=3 &
+    # Java bug in horiz-scroll
+    synclient VertTwoFingerScroll=1 HorizTwoFingerScroll=0
+    # no simulated right button please
+    synclient RightButtonAreaLeft=0  RightButtonAreaRight=0  RightButtonAreaTop=0  RightButtonAreaBottom=0 &
+    # but sometimes I do want to scroll horizontally, this is easier to not accidentally hit
+    synclient HorizEdgeScroll=1 VertEdgeScroll=0 HorizScrollDelta=35
+    # sensitivity fix
+    synclient VertHysteresis=24  HorizHysteresis=24 &
+    # no touchpad input while typing
+    syndaemon -d -t
+fi
+
+xmodmap -e 'keycode 66 = Control_L'
+xmodmap -e 'clear Lock'
+xmodmap -e 'add Control = Control_L'
+
+# autoxrandr.sh sets external monitor settings and wallpapers
+/home/bbeltr1/bin/autoxrandr.sh
+xsetroot -cursor_name left_ptr
+
+terminator --command="bash -ic 'tmux attach'" &
+
+google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://mail.google.com/mail/u/1/#inbox" "https://www.google.com/calendar/render#g" &
+
+# /opt/spark/Spark &
+
+# this allows processes spawned by XMonad to see my full path
+. /home/bbeltr1/.set_path
+

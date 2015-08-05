@@ -1,0 +1,18 @@
+# aliases for bash by Bruno Beltran
+
+# nice listing of how much space is taken up by subdirectories in `pwd`
+alias duf='du -sk * | sort -n | perl -ne '\''($s,$f)=split(m{\t});for (qw(K M G)) {if($s<1024) {printf("%.1f",$s);print "$_\t$f"; last};$s=$s/1024}'\'
+
+# for mounting shares from Christine's lab
+alias mountLab='sudo mount -t cifs --verbose -o intr,uid=bbeltr1,gid=bbeltr1,credentials=/home/bbeltr1/.smbcredentials //128.36.22.176/Common /media/CJW/Common; sudo mount -t cifs --verbose -o intr,uid=bbeltr1,gid=bbeltr1,credentials=/home/bbeltr1/.smbcredentials //128.36.22.176/Users\ 1 /media/CJW/Users\ 1; sudo mount -t cifs --verbose -o intr,uid=bbeltr1,gid=bbeltr1,credentials=/home/bbeltr1/.smbcredentials //128.36.22.176/Users\ 2 /media/CJW/Users\ 2; sudo mount -t cifs --verbose -o intr,uid=bbeltr1,gid=bbeltr1,credentials=/home/bbeltr1/.smbcredentials //128.36.22.176/Users\ 3 /media/CJW/Users\ 3; '
+alias unmountLab='sudo umount -l /media/CJW/*'
+
+# for launching matlab from the command line
+# better version in bin/mat
+#alias mat='matlab -nodesktop -nosplash'
+
+# for getting to my lab folder
+alias gotolab='cd "/media/CJW/Users 3/Rotation Students/Bruno Beltran"'
+
+# for a beep
+alias beep='play -qn synth 1 sine 800 vol 1 '

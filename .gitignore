@@ -1,0 +1,5 @@
+vim/temp_dirs
+vim/bundle
+ipython/profile_default/security
+ipython/profile_default/log
+*.sqlite

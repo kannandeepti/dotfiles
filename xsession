@@ -1,0 +1,1 @@
+/home/bbeltr1/.xmonad/bin/xsession
