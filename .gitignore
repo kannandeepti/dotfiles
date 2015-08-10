@@ -5,3 +5,4 @@ dotfiles/ipython/profile_default/log
 *.sqlite
 dotfiles/xmonad/xmonad*
 !dotfiles/xmonad/xmonad.hs
+*.pyc
