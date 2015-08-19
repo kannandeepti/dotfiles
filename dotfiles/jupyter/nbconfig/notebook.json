@@ -1,1 +1,6 @@
-{}
+{
+  "load_extensions": {
+    "IPython-notebook-extensions/testing/latex_envs/latex_envs": true,
+    "IPython-notebook-extensions/testing/hierarchical_collapse": true
+  }
+}

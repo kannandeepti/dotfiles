@@ -1,4 +1,4 @@
-from IPython.utils.path import get_ipython_dir
+from IPython.paths import get_ipython_dir
 import os
 import sys
 
