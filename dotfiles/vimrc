@@ -21,6 +21,7 @@ Bundle 'tpope/vim-commentary'
 Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-obsession'
+Bundle 'tpope/vim-abolish'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 Plugin 'altercation/vim-colors-solarized'
@@ -36,6 +37,7 @@ Plugin 'AndrewRadev/linediff.vim'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'ervandew/supertab'
 Plugin 'ivanov/vim-ipython'
+Plugin 'kien/ctrlp.vim'
 Plugin 'brunobeltran/vim-vmath'
 Plugin 'brunobeltran/vim-dragvisuals'
 
@@ -48,6 +50,7 @@ filetype plugin indent on
 """""""""""""""
 source ~/.vim/config_basic.vim
 source ~/.vim/config_extended.vim
+source ~/.vim/file_specific.vim
 
 """"""""""""""""
 " Now some plugins that need configuration
@@ -63,11 +66,53 @@ colorscheme solarized
 " FUCK TMUX
 " colorscheme desert
 
+" ctrl-p's name/default map overrides a feature I use commonly
+let g:ctrlp_map = ''
+nnoremap <leader>pp :CtrlP<cr>
+nnoremap <leader>po :CtrlPMRUFiles<cr>
+nnoremap <leader>pb :CtrlPBuffer<cr>
+nnoremap <leader>pa :CtrlPMixed<cr>
+" intelligently search up dirs first to check if we're in a git repo
+let g:ctrlp_working_path_mode = 'ra'
+" always jump to open windows
+let g:ctrlp_switch_buffer = 'E'
+" cache file names between vim sessions
+let g:ctrlp_clear_cache_on_exit = 0
+" using platform-independent spot for cache
+let g:ctrlp_cache_dir = $HOME.'/.vim/temp_dirs/ctrlp'
+" alt-opening with <c-y> in splits or tabs
+let g:ctrlp_arg_map = 1
+" how to open multiple files. the following says "open at most four files
+" in splits, then the remaining in hidden bufferes
+let g:ctrlp_open_multiple_files = '2vjr'
+" make most recently used file list reasonably big
+let g:ctrlp_mruf_max = 3000
+" actually I don't " i like dotfiles in general
+" let g:ctrlp_show_hidden = 1
+" unless they're .git or similar
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*        " Linux/MacOSX
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ }
+
+
+" use pylint for syntastic
+let g:syntastic_python_checkers = ['pyflakes', 'pylint']
+" known bug in pylint caused by dynamically created functions
+let g:syntastic_python_pylint_args = "--extension-pkg-whitelist=numpy"
+" don't check for errors on exit
+let g:syntastic_check_on_wq = 0
+" always populate loc list
+let g:syntastic_always_populate_loc_list = 1
+
 " airline is special, usually requires patched fonts
 " Plugin 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled=1
 let g:airline_theme="luna"
 set laststatus=2
+let g:airline_powerline_fonts = 1
 "set encoding=utf-8
 "let g:airline_powerline_fonts = 1
 "set guifont=Fira\ Mono\ Medium\ for\ Powerline:h9

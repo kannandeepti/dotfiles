@@ -1,4 +1,20 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Automagic File Open/Close Stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set viewdir=~/.nvim/temp_dirs/viewdir
+set viewoptions-=options
+augroup vimrc
+    autocmd BufWinLeave *
+    \   if expand('%') != '' && &buftype !~ 'nofile'
+    \|      mkview
+    \|  endif
+    autocmd BufWinEnter *
+    \   if expand('%') != '' && &buftype !~ 'nofile'
+    \|      silent! loadview
+    \|  endif
+augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => GUI related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set font according to system

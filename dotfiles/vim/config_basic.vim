@@ -3,7 +3,7 @@
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
-set history=7000
+set history=10000
 
 " relative line numbers for awesome movement
 set relativenumber
@@ -52,6 +52,9 @@ if has("win16") || has("win32")
 else
     set wildignore+=.git\*,.hg\*,.svn\*
 endif
+
+" have the wildmenu emulate terminal tab completion
+set wildmode=list:longest
 
 "Always show current position
 set ruler
@@ -285,7 +288,7 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Toggle paste mode on and off
-map <leader>pp :setlocal paste!<cr>
+map <leader>P :setlocal paste!<cr>
 
 " so tired of accidentally ending up in record mode
 nnoremap q: :q
