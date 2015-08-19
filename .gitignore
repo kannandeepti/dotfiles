@@ -1,5 +1,7 @@
 dotfiles/vim/temp_dirs
 dotfiles/vim/bundle
+dotfiles/nvim/temp_dirs
+dotfiles/nvim/bundle
 dotfiles/ipython/profile_default/security
 dotfiles/ipython/profile_default/log
 *.sqlite
