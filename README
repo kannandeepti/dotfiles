@@ -7,6 +7,12 @@ make your own branch and whitelist by deleting the ones you don't want first,
 since various of the files have hardcoded paths that may case SERIOUS DAMAGE if
 misused.
 
+Also, make sure to do something like the following to see what you're installing
+
+for file in `ls dotfiles`; do
+    diff -r "dotfiles/$file" "$HOME/.$file" >>install_dry_run.diff
+done
+
 THIS WORK IS PROVIDED "AS IS," AND COPYRIGHT HOLDERS MAKE NO REPRESENTATIONS OR
 WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO, WARRANTIES OF
 MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE
