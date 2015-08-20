@@ -1,8 +1,7 @@
 # This file contains all the manual additions to my path I have to make
 
-
-# I like begin able to execute things in the working directory
-export PATH=".:~/bin:${PATH}"
+# get jupyterhub to work
+export PATH="${PATH}:~/Developer/virtualenvs/jupyter"
 
 # Set up spark manually for Christine
 export PATH="${PATH}:/opt/spark"
@@ -23,3 +22,8 @@ export PATH=$PATH:~/.cabal/bin:~/.xmonad/bin
 
 # stuff "stack" told me to do
 export PATH=$PATH:/home/bbeltr1/.stack/programs/x86_64-linux/ghc-7.8.4/bin
+
+
+# I like begin able to execute things in the working directory with highest
+# priority
+export PATH=".:~/bin:${PATH}"
