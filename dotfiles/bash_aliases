@@ -16,3 +16,7 @@ alias gotolab='cd "/media/CJW/Users 3/Rotation Students/Bruno Beltran"'
 
 # for a beep
 alias beep='play -qn synth 1 sine 800 vol 1 '
+
+# for copy/paste via pipe
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
