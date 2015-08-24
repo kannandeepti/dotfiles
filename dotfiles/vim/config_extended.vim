@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Automagic File Open/Close Stuff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set viewdir=~/.nvim/temp_dirs/viewdir
+set viewdir=~/.vim/temp_dirs/viewdir
 set viewoptions-=options
 augroup vimrc
     autocmd BufWinLeave *
