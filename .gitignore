@@ -8,3 +8,4 @@ dotfiles/ipython/profile_default/log
 dotfiles/xmonad/xmonad*
 !dotfiles/xmonad/xmonad.hs
 *.pyc
+dotfiles/config/google-chrome/
