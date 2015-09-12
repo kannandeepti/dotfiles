@@ -117,7 +117,9 @@ export EDITOR=vim
 # my prompt needs tweaking
 PS1="\[\`if [[ \$? = "0" ]]; then echo '\e[32m\h\e[0m'; else echo '\e[31m\h\e[0m' ; fi\`:\w\n\$ "
 
-. ~/.set_path
+if [ -f ~/.set_path ]; then
+    . ~/.set_path
+fi
 
 stty stop undef
 
