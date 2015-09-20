@@ -24,6 +24,7 @@ Bundle 'tpope/vim-obsession'
 Bundle 'tpope/vim-abolish'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdcommenter'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
 Plugin 'Lokaltog/vim-easymotion'
@@ -99,7 +100,8 @@ let g:ctrlp_custom_ignore = {
 
 
 " use pylint for syntastic
-let g:syntastic_python_checkers = ['pyflakes', 'pylint']
+" let g:syntastic_python_checkers = ['pyflakes3', 'pylint']
+let g:syntastic_python_checkers = ['pyflakes3']
 " known bug in pylint caused by dynamically created functions
 let g:syntastic_python_pylint_args = "--extension-pkg-whitelist=numpy"
 " don't check for errors on exit
@@ -210,6 +212,7 @@ let g:jedi#force_py_version = 3
 " YOU COMPLETE ME
 " Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+let g:ycm_extra_conf_globlist = ['~/Developer/*/*', '~/*']
 
 "" YouCompleteMe
 let g:ycm_key_list_previous_completion=['<Up>']

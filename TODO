@@ -1,0 +1,4 @@
+Separate "config" out of "dotfiles/", and link each subdirectory of it
+individually as requested only, to omit google-chrome, which appears to use it
+as ".cache" almost....
+

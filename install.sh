@@ -26,7 +26,7 @@ fi
 for file in `ls dotfiles`; do
     linkname="$HOME/.$file"
     target="$MY_PATH/dotfiles/$file"
-    if [[ -e "$linkname" ]]; then
+    if [[ -e "$linkname" || -h "$linkname" ]]; then
         printf "Deleting old dotfile: %s\n" $linkname
         rm -rf "$linkname"
     fi

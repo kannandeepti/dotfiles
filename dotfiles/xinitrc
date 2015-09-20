@@ -42,10 +42,15 @@ xsetroot -cursor_name left_ptr
 
 terminator --command="bash -ic 'tmux attach'" &
 
-google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://mail.google.com/mail/u/1/#inbox" "https://www.google.com/calendar/render#g" &
+#hash optirun 2>/dev/null \
+    #&& optirun google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" \
+    #|| google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" &
+google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://webmail.stanford.edu" "https://www.google.com/calendar/render#g" &
 
 # /opt/spark/Spark &
 
 # this allows processes spawned by XMonad to see my full path
 . /home/bbeltr1/.set_path
 
+# try to make sure ibus works right away
+ibus restart &
