@@ -45,7 +45,7 @@ terminator --command="bash -ic 'tmux attach'" &
 #hash optirun 2>/dev/null \
     #&& optirun google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" \
     #|| google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" &
-google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://webmail.stanford.edu" "https://www.google.com/calendar/render#g" &
+firefox "https://mail.google.com/mail/u/0/#inbox" "https://webmail.stanford.edu" "https://www.google.com/calendar/render#g" &
 
 # /opt/spark/Spark &
 
