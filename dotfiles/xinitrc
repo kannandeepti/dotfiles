@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+#if [ -z ${_IMPORTED_BRUNO_XINITRC+x} ]; then
+#    echo "Already imported xinitrc."
+#else
+export _IMPORTED_BRUNO_XINITRC=1
+
+[ -x /usr/lib/notify-osd/notify-osd && `ps aux | grep notify-osd | wc -l` -gt 1 ] && /usr/lib/notify-osd/notify-osd &
+
+# Configure PATH so that we can access our scripts below
+[ -f ~/.set_path ] && source ~/.set_path
+
 # fuck java, and its hardcoded bullshit
 export _JAVA_AWT_WM_NONREPARENTING=1
 # but for real. fuck java
@@ -11,6 +21,8 @@ export XMODIFIERS="@im=ibus"
 export XIM_PROGRAM=/usr/bin/ibus-daemon
 export XIM_ARGS="--xim"
 export QT_IM_MODULE=ibus
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 ibus-daemon -drx
 
 # Detect and configure touchpad if present
@@ -37,20 +49,32 @@ xmodmap -e 'clear Lock'
 xmodmap -e 'add Control = Control_L'
 
 # autoxrandr.sh sets external monitor settings and wallpapers
-/home/bbeltr1/bin/autoxrandr.sh
+if type autoxrandr.sh >/dev/null 2>&1; then
+    /home/bbeltr1/bin/autoxrandr.sh &
+fi
+
+# now make sure that we use a standard cursor instead of the default "X"
 xsetroot -cursor_name left_ptr
 
-terminator --command="bash -ic 'tmux attach'" &
+# and start a terminator session
+if type terminator >/dev/null 2>&1; then
+    terminator --command="bash -ic 'tmux attach'" &
+fi
 
 #hash optirun 2>/dev/null \
     #&& optirun google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" \
     #|| google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" &
-firefox "https://mail.google.com/mail/u/0/#inbox" "https://webmail.stanford.edu" "https://www.google.com/calendar/render#g" &
+if type firefox >/dev/null 2>&1; then
+    firefox & # always-up pages are now pinned #"https://mail.google.com/mail/u/0/#inbox" "https://webmail.stanford.edu" "https://www.google.com/calendar/render#g" &
+fi
+
+# start f.lux for X in Palo Alto time zone
+if type xflux >/dev/null 2>&1; then
+    xflux -z 94305 &
+fi
 
 # /opt/spark/Spark &
 
-# this allows processes spawned by XMonad to see my full path
-. /home/bbeltr1/.set_path
-
-# try to make sure ibus works right away
-ibus restart &
+# try to make sure ibus works right away (no longer necessary, thanks lightdm)
+#ibus restart &
+#fi

@@ -3,16 +3,15 @@
 # Author: Vic Fryzel
 # http://github.com/vicfryzel/xmonad-config
 
-
-# Configure PATH so that we can access our scripts below
-PATH=$PATH:~/.cabal/bin:~/.xmonad/bin
+# when you're using GDM, this is redundant. With nodm, this is necessary.
+#. ~/.xinitrc
 
 # Configure X
-xsetroot -cursor_name left_ptr &
-xrdb -merge ~/.Xdefaults &
+# xsetroot -cursor_name left_ptr &
+# xrdb -merge ~/.Xdefaults &
 
 # Start the system tray
-tray &
+# tray &
 
 # Start two terminals
 #gnome-terminal &
@@ -23,10 +22,10 @@ tray &
 
 # Start screensaver
 # Kill gnome-screensaver if started by default
-killall gnome-screensaver &
+# killall gnome-screensaver &
 # xscreensaver -no-splash &
 
 # Start sound server
-pulseaudio --start &
+# pulseaudio --start &
 
 exec ck-launch-session dbus-launch --sh-syntax --exit-with-session xmonad

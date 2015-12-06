@@ -37,9 +37,7 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
+[ -f ~/.set_path ] && source ~/.set_path
 
 # start mpd if it's not already up
-start_mpd_if_not_running
+type mpd >/dev/null 2>&1 && start_mpd_if_not_running

@@ -128,7 +128,7 @@ xmobarTitleColor = "#FFB6B0"
 xmobarCurrentWorkspaceColor = "#CEFFAC"
 
 -- Width of the window border in pixels.
-myBorderWidth = 1
+myBorderWidth = 3
 
 
 ------------------------------------------------------------------------
@@ -175,6 +175,13 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask .|. shiftMask, xK_o),
      spawn "fetchotp -x")
 
+  -- Increase screen brightness (XF86MonBrightnessUp)
+  , ((0, 0x1008ff02),
+     spawn "xbacklight +10")
+
+  -- Decrease screen brightness (XF86MonBrightnessDown)
+  , ((0, 0x1008ff03),
+     spawn "xbacklight -10")
 
   -- Mute volume.
   , ((modMask .|. controlMask, xK_m),
