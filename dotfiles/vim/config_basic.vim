@@ -50,10 +50,11 @@ set wildmenu
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
+" Ignore repositories
 if has("win16") || has("win32")
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+    set wildignore+=*.git\*,*.hg\*,*.svn\*,*\.DS_Store
 else
-    set wildignore+=.git\*,.hg\*,.svn\*
+    set wildignore+=*.git/*,*.hg/*,*.svn/*,*/.DS_Store
 endif
 
 " have the wildmenu emulate terminal tab completion
@@ -223,9 +224,21 @@ map <silent> <leader><cr> :noh<cr>
 "map <C-h> <C-W>h
 "map <C-l> <C-W>l
 
+" shortcuts to move between and jump to buffers by number
+map <leader>b0 :0b<cr>
+map <leader>b1 :1b<cr>
+map <leader>b2 :2b<cr>
+map <leader>b3 :3b<cr>
+map <leader>b4 :4b<cr>
+map <leader>b5 :5b<cr>
+map <leader>b6 :6b<cr>
+map <leader>b7 :7b<cr>
+map <leader>b8 :8b<cr>
+map <leader>b9 :9b<cr>
+map <leader>bn :bn<cr>
+map <leader>bp :bp<cr>
 " Close the current buffer
 map <leader>bd :Bclose<cr>
-
 " Close all the buffers
 map <leader>ba :1,1000 bd!<cr>
 
@@ -233,8 +246,9 @@ map <leader>ba :1,1000 bd!<cr>
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
-map <leader>t<leader> :tabnext
+map <leader>td :tabclose<cr>
+map <leader>tm :tabmove<cr>
+map <leader>t<leader> :tabnext<cr>
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
@@ -314,6 +328,13 @@ command! Q q
 
 " catchall cleanup
 nnoremap <leader><cr> <C-c>:noh<cr>:redraw!<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => netrw config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:netrw_list_hide='^.*\.o$,^.*\~$,^.*\.pyc$,^\.hg.*$,^\.svn.*$,^\.git/.*$,^.*/\.hg/.*$,^.*/\.svn/.*$,^\.\.\=/\=$'
+let g:netrw_sort_options="i"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions

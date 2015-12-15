@@ -35,6 +35,9 @@ Plugin 'tpope/vim-fugitive'     " git wrapper, <leader>g*
 Plugin 'tpope/vim-obsession'    " save current open windows, folds, etc
 Plugin 'tpope/vim-abolish'      " 'semantic' substitution? :Subvert, :Abolish
 Plugin 'tpope/vim-vinegar'      " make netrw not suck, 'I' to toggle
+Plugin 'junegunn/goyo.vim'      " distraction-free 'focus' writing mode
+Plugin 'vim-scripts/indentpython.vim'       " PEP8-ier continued line indentation
+Plugin 'tmhedberg/SimpylFold'   " good default code folding Python
 Plugin 'scrooloose/syntastic'   " put externally checked errors in quickfix list
 Plugin 'altercation/vim-colors-solarized'   " color scheme
 Plugin 'bling/vim-airline'      " a powerline thingy for status on bottom/top
@@ -48,7 +51,8 @@ Plugin 'Valloric/YouCompleteMe' " powerful autocompletion engine. monolithic: TO
 Plugin 'AndrewRadev/linediff.vim'           " diffs between visual selections
 Plugin 'NLKNguyen/papercolor-theme'         " another color theme
 " not clear why I need this since I use YouCompleteMe" Plugin 'ervandew/supertab'
-Plugin 'ivanov/vim-ipython'     " run code in an iPython console
+" Plugin 'ivanov/vim-ipython'     " run code in an iPython console
+Plugin 'bfredl/nvim-ipy'        " run code in an iPython console
 Plugin 'ctrlpvim/ctrlp.vim'                 " fuzzy file finder, <leader>p*
 Plugin 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
 Plugin 'brunobeltran/vim-vmath' " fork of '++' summarizer for numbers
@@ -123,8 +127,7 @@ let g:ctrlp_mruf_max = 3000
 let g:ctrlp_max_files = 0
 " actually I don't " i like dotfiles in general
 " let g:ctrlp_show_hidden = 1
-" unless they're .git or similar
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*        " Linux/MacOSX
+" unless they're .git or similar, which are already wildignore'd
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
@@ -153,6 +156,7 @@ let g:syntastic_always_populate_loc_list = 1
 " airline is special, usually requires patched fonts
 " Plugin 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#buffer_nr_show=1
 let g:airline_theme="luna"
 set laststatus=2
 let g:airline_powerline_fonts = 1
@@ -212,21 +216,36 @@ if has("win16") || has("win32")
     noremap <silent> <C-S-l> :TmuxNavigateRight<cr>
     noremap <silent> <C-S-\> :TmuxNavigatePrevious<cr>
 elseif has("unix") || has("linux")
-    cnoremap <silent> h  <C-c>:TmuxNavigateLeft<cr>
-    cnoremap <silent> j  <C-c>:TmuxNavigateDown<cr>
-    cnoremap <silent> k  <C-c>:TmuxNavigateUp<cr>
-    cnoremap <silent> l  <C-c>:TmuxNavigateRight<cr>
-    cnoremap <silent> \  <C-c>:TmuxNavigatePrevious<cr>
-    inoremap <silent> h  <C-c>:TmuxNavigateLeft<cr>
-    inoremap <silent> j  <C-c>:TmuxNavigateDown<cr>
-    inoremap <silent> k  <C-c>:TmuxNavigateUp<cr>
-    inoremap <silent> l  <C-c>:TmuxNavigateRight<cr>
-    inoremap <silent> \  <C-c>:TmuxNavigatePrevious<cr>
-    noremap <silent> h  :TmuxNavigateLeft<cr>
-    noremap <silent> j  :TmuxNavigateDown<cr>
-    noremap <silent> k  :TmuxNavigateUp<cr>
-    noremap <silent> l  :TmuxNavigateRight<cr>
-    noremap <silent> \  :TmuxNavigatePrevious<cr>
+    cnoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
+    cnoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
+    cnoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
+    cnoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
+    cnoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
+    inoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
+    inoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
+    inoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
+    inoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
+    inoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
+    noremap <silent> <M-h> :TmuxNavigateLeft<cr>
+    noremap <silent> <M-j> :TmuxNavigateDown<cr>
+    noremap <silent> <M-k> :TmuxNavigateUp<cr>
+    noremap <silent> <M-l> :TmuxNavigateRight<cr>
+    noremap <silent> <M-\> :TmuxNavigatePrevious<cr>
+    cnoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
+    cnoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
+    cnoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
+    cnoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
+    cnoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
+    inoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
+    inoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
+    inoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
+    inoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
+    inoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
+    noremap <silent> <M-h> :TmuxNavigateLeft<cr>
+    noremap <silent> <M-j> :TmuxNavigateDown<cr>
+    noremap <silent> <M-k> :TmuxNavigateUp<cr>
+    noremap <silent> <M-l> :TmuxNavigateRight<cr>
+    noremap <silent> <M-\> :TmuxNavigatePrevious<cr>
 endif
 
 " Finally
@@ -236,24 +255,26 @@ endif
 set tags+=tags;$HOME
 
 " Baller addition to omnicompletion: JEDI-VIM
+" auto-shows docs on typing, renames, goto def, etc
 " Plugin 'davidhalter/jedi-vim'
-" i use <c-space> for changing keyboard langauges
-let g:jedi#completions_command = "<C-N>"
-" change this only if you really want to do everything manually
-let g:jedi#auto_initialization = 1
-" prevent it from being a bully
-let g:jedi#auto_vim_configuration = 0
-" i'd like it to only select the first option right away when I explicitly call it
-" since that option isn't present I'll disable it except for when I explicitly call it
+" set up to not interfere with youcompleteme
 let g:jedi#popup_on_dot = 0
-" prevent dumb warning when I'm using an incompatible vim
-let g:jedi#squelch_py_warning = 1
-let g:jedi#force_py_version = 3
+let g:jedi#popup_select_first = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#completions_command = ""
+let g:jedi#show_call_signatures = "1"
+" and some shortcuts, k for 'kode'
+let g:jedi#goto_assignments_command = "<leader>ka"
+let g:jedi#goto_definitions_command = "<leader>kd"
+let g:jedi#documentation_command = "<leader>kk"
+map <leader>k? <leader>kk
+let g:jedi#usages_command = "<leader>ku"
+let g:jedi#rename_command = "<leader>kr"
 
 " YOU COMPLETE ME
 " Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-let g:ycm_extra_conf_globlist = ['~/Developer/*/*', '~/*']
+let g:ycm_extra_conf_globlist = ['~/developer/*/*', '~/*']
 let g:ycm_key_list_previous_completion=['<Up>']
 
 
@@ -314,3 +335,12 @@ nmap         ++  vip++
 
 " Abolish abbreviations
 " Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}
+
+" nvim-ipy mappings, j for Jupyter
+" not clear what interrupt and terminate should be mapped to
+map <silent> <leader>jr <Plug>(IPy-Run)
+map <silent> <C-x><C-j> <Plug>(IPy-Complete)
+map <silent> <leader>j? <Plug>(IPy-WordObjInfo)
+map <silent> <leader>jk <Plug>(IPy-WordObjInfo)
+map <silent> <leader>ji <Plug>(IPy-Interrupt)
+map <silent> <leader>jx <Plug>(IPy-Terminate)

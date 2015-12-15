@@ -26,6 +26,9 @@ fi
 for file in `ls dotfiles`; do
     linkname="$HOME/.$file"
     target="$MY_PATH/dotfiles/$file"
+    if [[ "$file" == "config" ]]; then
+        continue
+    fi
     if [[ -e "$linkname" || -h "$linkname" ]]; then
         printf "Deleting old dotfile: %s\n" $linkname
         rm -rf "$linkname"
@@ -35,4 +38,14 @@ for file in `ls dotfiles`; do
 done
 
 
+for file in `ls dotfiles/config`; do
+    linkname="$HOME/.config/$file"
+    target="$MY_PATH/dotfiles/config/$file"
+    if [[ -e "$linkname" || -h "$linkname" ]]; then
+        printf "Deleting old .config entry: %s\n" $linkname
+        rm -rf "$linkname"
+    fi
+    printf "Creating symlink: %s -> %s\n" $linkname $target
+    ln -s "$target" "$linkname"
+done
 
