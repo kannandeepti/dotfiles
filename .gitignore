@@ -9,3 +9,6 @@ dotfiles/xmonad/xmonad*
 !dotfiles/xmonad/xmonad.hs
 *.pyc
 dotfiles/config/google-chrome/
+.*.swp
+.netrwhist
+dotfiles/vim/obsession.session

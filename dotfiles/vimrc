@@ -1,6 +1,18 @@
-" Use Vundle for plugins
+" Bruno Beltran's [n]vimrc
+"
+" Rules about mappings:
+"   1) (almost) never overwrite vanilla vim mappings
+"   2) additional simple text-editing commands can be mapped without leader
+"   3) commands that rely on external programs should be mapped with leader
+"   4) commands should be grouped to be easy to use in vim's noun-verb-adverb[s]
+"   convention. e.g. do not do anything that would require a count to go at the
+"   end, and group commands so that they feel "composed" even if they're not,
+"   like <leader>ga, <leader>gs, <leader>gc, for :Gitadd/status/commit.
 
+
+" Use Vundle for plugins
 " This section must be first, and verbatim/as is
+if !exists("g:bruno_config_loaded_previously") " include guard for :so autocmds
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
@@ -12,34 +24,39 @@ call vundle#begin('~/.vim/bundle')
 " ALL YOUR PLUGINS ARE BELONG TO ME
 """""""""""""""
 " Indispensible plugins. Note that gmarik/vundle must come first!
-" None of these set any nonstandard options by default
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-obsession'
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-vinegar'
-Bundle 'scrooloose/syntastic'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'bling/vim-airline'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'godlygeek/tabular'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'AndrewRadev/linediff.vim'
-Plugin 'NLKNguyen/papercolor-theme'
-Plugin 'ervandew/supertab'
-Plugin 'ivanov/vim-ipython'
-Plugin 'kien/ctrlp.vim'
-Plugin 'brunobeltran/vim-vmath'
-Plugin 'brunobeltran/vim-dragvisuals'
+Plugin 'gmarik/vundle'
+Plugin 'tpope/vim-endwise'      " complete if...end blocks and similar
+Plugin 'tpope/vim-git'          " syntax/indent/etc files for git
+Plugin 'tpope/vim-surround'     " 's[urround]' direct object, e.g. ds, cs, ys
+Plugin 'tpope/vim-commentary'   " 'gc' verb to [un]comment lines
+Plugin 'tpope/vim-repeat'       " make '.' work as expected for plugin maps
+Plugin 'tpope/vim-speeddating'  " make <C-x> and <C-a> work on dates
+Plugin 'tpope/vim-fugitive'     " git wrapper, <leader>g*
+Plugin 'tpope/vim-obsession'    " save current open windows, folds, etc
+Plugin 'tpope/vim-abolish'      " 'semantic' substitution? :Subvert, :Abolish
+Plugin 'tpope/vim-vinegar'      " make netrw not suck, 'I' to toggle
+Plugin 'scrooloose/syntastic'   " put externally checked errors in quickfix list
+Plugin 'altercation/vim-colors-solarized'   " color scheme
+Plugin 'bling/vim-airline'      " a powerline thingy for status on bottom/top
+Plugin 'Lokaltog/vim-easymotion'            " skip around, <leader><leader>*
+Plugin 'godlygeek/tabular'      " :Tabularize /<character to align by>
+Plugin 'SirVer/ultisnips'       " autocomplete common long snippets
+Plugin 'honza/vim-snippets'     " various pre-made snippets for UltiSnips
+Plugin 'christoomey/vim-tmux-navigator'     " <A-hjkl> between vimdows and tpanes
+Plugin 'davidhalter/jedi-vim'   " powerful python autcompletion/docs w/o YouCompleteMe
+Plugin 'Valloric/YouCompleteMe' " powerful autocompletion engine. monolithic: TODO: remap
+Plugin 'AndrewRadev/linediff.vim'           " diffs between visual selections
+Plugin 'NLKNguyen/papercolor-theme'         " another color theme
+" not clear why I need this since I use YouCompleteMe" Plugin 'ervandew/supertab'
+Plugin 'ivanov/vim-ipython'     " run code in an iPython console
+Plugin 'ctrlpvim/ctrlp.vim'                 " fuzzy file finder, <leader>p*
+Plugin 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
+Plugin 'brunobeltran/vim-vmath' " fork of '++' summarizer for numbers
+Plugin 'brunobeltran/vim-dragvisuals' " move visual selections <Up>/.../<Right>
+
+" TODO
+Plugin 'majutsushi/tagbar'      " browse C/C++ tag files in split
+"decided it's better to just use web interface Plugin 'itchyny/calendar.vim'   " in-vim Calendar w/. Google support? (auth fail..)
 
 " Required after pulling in all the plugins
 call vundle#end()
@@ -48,23 +65,38 @@ filetype plugin indent on
 """"""""""""""
 " Now source non-external program dependent, non plugin dependent configs
 """""""""""""""
+" make the config files automatically reload config on write
+autocmd! bufwritepost .vimrc source %
+autocmd! bufwritepost config_basic.vim source ~/.vimrc
+autocmd! bufwritepost config_extended.vim source ~/.vimrc
+autocmd! bufwritepost file_specific.vim source ~/.vimrc
 source ~/.vim/config_basic.vim
 source ~/.vim/config_extended.vim
 source ~/.vim/file_specific.vim
 
+endif " END include guard for sourcing autocmds
+let g:bruno_config_loaded_previously=1
+
 """"""""""""""""
 " Now some plugins that need configuration
 """"""""""""""""
-" colors
-" Plugin 'altercation/vim-colors-solarized'
-syntax enable
-set background=dark
-" let g:solarized_termcolors=256
-set t_Co=256
-" colorscheme PaperColor
-colorscheme solarized
-" FUCK TMUX
-" colorscheme desert
+
+" fugitive git bindings
+nnoremap <space>ga :Git add %:p<CR><CR>
+nnoremap <space>gs :Gstatus<CR>
+nnoremap <space>gc :Gcommit -v -q<CR>
+nnoremap <space>gt :Gcommit -v -q %:p<CR>
+nnoremap <space>gd :Gdiff<CR>
+nnoremap <space>ge :Gedit<CR>
+nnoremap <space>gr :Gread<CR>
+nnoremap <space>gw :Gwrite<CR><CR>
+nnoremap <space>gl :silent! Glog<CR>:bot copen<CR>
+nnoremap <space>gg :Ggrep<Space>
+nnoremap <space>gm :Gmove<Space>
+nnoremap <space>gb :Git branch<Space>
+nnoremap <space>go :Git checkout<Space>
+nnoremap <space>gps :Dispatch! git push<CR>
+nnoremap <space>gpl :Dispatch! git pull<CR>
 
 " ctrl-p's name/default map overrides a feature I use commonly
 let g:ctrlp_map = ''
@@ -87,6 +119,8 @@ let g:ctrlp_arg_map = 1
 let g:ctrlp_open_multiple_files = '2vjr'
 " make most recently used file list reasonably big
 let g:ctrlp_mruf_max = 3000
+" no number of maximum files, I'm on a modern machine
+let g:ctrlp_max_files = 0
 " actually I don't " i like dotfiles in general
 " let g:ctrlp_show_hidden = 1
 " unless they're .git or similar
@@ -96,7 +130,15 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
   \ }
-
+" faster matcher written in Python
+if has('python')
+    let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+endif
+" If ag is available use it as filename list generator instead of 'find'
+if executable("ag")
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+endif
 
 " use pylint for syntastic
 " let g:syntastic_python_checkers = ['pyflakes3', 'pylint']
@@ -121,11 +163,11 @@ let g:airline_powerline_fonts = 1
 " Easymotion
 " Plugin 'Lokaltog/vim-easymotion'
 " remove <leader> to use for search by default
-map  <Leader>/ <Plug>(easymotion-sn)
-omap <Leader>/ <Plug>(easymotion-tn)
-vmap <Leader>/ <Plug>(easymotion-tn)
-map  <Leader>n <Plug>(easymotion-next)
-map  <Leader>N <Plug>(easymotion-prev)
+map  <Leader><Leader>/ <Plug>(easymotion-sn)
+omap <Leader><Leader>/ <Plug>(easymotion-tn)
+vmap <Leader><Leader>/ <Plug>(easymotion-tn)
+map  <Leader><Leader>n <Plug>(easymotion-next)
+map  <Leader><Leader>N <Plug>(easymotion-prev)
 " avoid repeated hjkl input
 map <Leader><Leader>l <Plug>(easymotion-lineforward)
 map <Leader><Leader>j <Plug>(easymotion-j)
@@ -160,31 +202,31 @@ let g:EasyMotion_smartcase = 1
 
 " Make a seamless interface with tmux
 " REQUIRES: extra config on tmux side
-" use custom bindings (same as defaults for now)
+" use custom bindings
 " Plugin 'christoomey/vim-tmux-navigator'
 let g:tmux_navigator_no_mappings = 1
 if has("win16") || has("win32")
-    nnoremap <silent> <C-S-h> :TmuxNavigateLeft<cr>
-    nnoremap <silent> <C-S-j> :TmuxNavigateDown<cr>
-    nnoremap <silent> <C-S-k> :TmuxNavigateUp<cr>
-    nnoremap <silent> <C-S-l> :TmuxNavigateRight<cr>
-    nnoremap <silent> <C-S-\> :TmuxNavigatePrevious<cr>
+    noremap <silent> <C-S-h> :TmuxNavigateLeft<cr>
+    noremap <silent> <C-S-j> :TmuxNavigateDown<cr>
+    noremap <silent> <C-S-k> :TmuxNavigateUp<cr>
+    noremap <silent> <C-S-l> :TmuxNavigateRight<cr>
+    noremap <silent> <C-S-\> :TmuxNavigatePrevious<cr>
 elseif has("unix") || has("linux")
-    inoremap <silent> h  <Esc>:TmuxNavigateLeft<cr>
-    inoremap <silent> j  <Esc>:TmuxNavigateDown<cr>
-    inoremap <silent> k  <Esc>:TmuxNavigateUp<cr>
-    inoremap <silent> l  <Esc>:TmuxNavigateRight<cr>
-    inoremap <silent> \  <Esc>:TmuxNavigatePrevious<cr>
-    nnoremap <silent> h  :TmuxNavigateLeft<cr>
-    nnoremap <silent> j  :TmuxNavigateDown<cr>
-    nnoremap <silent> k  :TmuxNavigateUp<cr>
-    nnoremap <silent> l  :TmuxNavigateRight<cr>
-    nnoremap <silent> \  :TmuxNavigatePrevious<cr>
-    cnoremap <silent> h  <Esc>:TmuxNavigateLeft<cr>
-    cnoremap <silent> j  <Esc>:TmuxNavigateDown<cr>
-    cnoremap <silent> k  <Esc>:TmuxNavigateUp<cr>
-    cnoremap <silent> l  <Esc>:TmuxNavigateRight<cr>
-    cnoremap <silent> \  <Esc>:TmuxNavigatePrevious<cr>
+    cnoremap <silent> h  <C-c>:TmuxNavigateLeft<cr>
+    cnoremap <silent> j  <C-c>:TmuxNavigateDown<cr>
+    cnoremap <silent> k  <C-c>:TmuxNavigateUp<cr>
+    cnoremap <silent> l  <C-c>:TmuxNavigateRight<cr>
+    cnoremap <silent> \  <C-c>:TmuxNavigatePrevious<cr>
+    inoremap <silent> h  <C-c>:TmuxNavigateLeft<cr>
+    inoremap <silent> j  <C-c>:TmuxNavigateDown<cr>
+    inoremap <silent> k  <C-c>:TmuxNavigateUp<cr>
+    inoremap <silent> l  <C-c>:TmuxNavigateRight<cr>
+    inoremap <silent> \  <C-c>:TmuxNavigatePrevious<cr>
+    noremap <silent> h  :TmuxNavigateLeft<cr>
+    noremap <silent> j  :TmuxNavigateDown<cr>
+    noremap <silent> k  :TmuxNavigateUp<cr>
+    noremap <silent> l  :TmuxNavigateRight<cr>
+    noremap <silent> \  :TmuxNavigatePrevious<cr>
 endif
 
 " Finally
@@ -212,8 +254,6 @@ let g:jedi#force_py_version = 3
 " Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 let g:ycm_extra_conf_globlist = ['~/Developer/*/*', '~/*']
-
-"" YouCompleteMe
 let g:ycm_key_list_previous_completion=['<Up>']
 
 
@@ -271,3 +311,6 @@ let g:DVB_TrimWS=1
 "====[ vmath ]====================
 vmap <expr>  ++  VMATH_YankAndAnalyse()
 nmap         ++  vip++
+
+" Abolish abbreviations
+" Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}

@@ -23,6 +23,7 @@ let g:mapleader = "\<Space>"
 
 " Fast saving
 nmap <leader>w :w!<cr>
+vmap <leader>w :w!<cr>
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -31,6 +32,8 @@ if has("win16") || has("win32")
 else
     command! W w !sudo tee % > /dev/null
 endif
+
+nmap <leader>W :W<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -56,10 +59,20 @@ endif
 " have the wildmenu emulate terminal tab completion
 set wildmode=list:longest
 
+" complete from current file, loaded then unloaded buffers, tags, included
+" files, and the dictionary but only if spell is on
+set complete=.,w,b,t,i,kspell
+
+" keep my own dictionaries
+set dictionary-=/usr/share/dict/words dictionary+=~/.vim/words/english.txt
+" including filetype specific dictionaries
+au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
+
 "Always show current position
 set ruler
 
-" Height of the command bar
+" Height of the command bar, at least two required for various other
+" parts of the config
 set cmdheight=2
 
 " A buffer becomes hidden when it is abandoned
@@ -117,6 +130,9 @@ set nottimeout
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable
+
+" prettier colors, even in terminal
+set t_Co=256
 
 try
     colorscheme solarized
