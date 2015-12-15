@@ -5,7 +5,7 @@
 #else
 export _IMPORTED_BRUNO_XINITRC=1
 
-[ -x /usr/lib/notify-osd/notify-osd && `ps aux | grep notify-osd | wc -l` -gt 1 ] && /usr/lib/notify-osd/notify-osd &
+# [ -x /usr/lib/notify-osd/notify-osd && `ps aux | grep notify-osd | wc -l` -gt 1 ] && /usr/lib/notify-osd/notify-osd &
 
 # Configure PATH so that we can access our scripts below
 [ -f ~/.set_path ] && source ~/.set_path
@@ -24,6 +24,10 @@ export QT_IM_MODULE=ibus
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 ibus-daemon -drx
+
+xmodmap -e 'keycode 66 = Control_L'
+xmodmap -e 'clear Lock'
+xmodmap -e 'add Control = Control_L'
 
 # Detect and configure touchpad if present
 if egrep -iq 'touchpad' /proc/bus/input/devices; then
@@ -44,17 +48,13 @@ if egrep -iq 'touchpad' /proc/bus/input/devices; then
     syndaemon -d -t
 fi
 
-xmodmap -e 'keycode 66 = Control_L'
-xmodmap -e 'clear Lock'
-xmodmap -e 'add Control = Control_L'
+# now make sure that we use a standard cursor instead of the default "X"
+xsetroot -cursor_name left_ptr
 
 # autoxrandr.sh sets external monitor settings and wallpapers
 if type autoxrandr.sh >/dev/null 2>&1; then
     /home/bbeltr1/bin/autoxrandr.sh &
 fi
-
-# now make sure that we use a standard cursor instead of the default "X"
-xsetroot -cursor_name left_ptr
 
 # and start a terminator session
 if type terminator >/dev/null 2>&1; then
@@ -73,8 +73,4 @@ if type xflux >/dev/null 2>&1; then
     xflux -z 94305 &
 fi
 
-# /opt/spark/Spark &
-
-# try to make sure ibus works right away (no longer necessary, thanks lightdm)
-#ibus restart &
-#fi
+#fi # end include wrapper

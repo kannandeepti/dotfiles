@@ -1,7 +1,7 @@
 # This file contains all the manual additions to my path I have to make
 
 # get jupyterhub to work
-export PATH="${PATH}:~/Developer/virtualenvs/jupyter"
+export PATH="${PATH}:~/developer/virtualenvs/jupyter"
 
 # Set up spark manually for Christine
 export PATH="${PATH}:/opt/spark"
