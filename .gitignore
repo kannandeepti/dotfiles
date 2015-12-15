@@ -12,3 +12,4 @@ dotfiles/config/google-chrome/
 .*.swp
 .netrwhist
 dotfiles/vim/obsession.session
+*~

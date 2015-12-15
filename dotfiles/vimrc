@@ -10,70 +10,59 @@
 "   like <leader>ga, <leader>gs, <leader>gc, for :Gitadd/status/commit.
 
 
-" Use Vundle for plugins
-" This section must be first, and verbatim/as is
-if !exists("g:bruno_config_loaded_previously") " include guard for :so autocmds
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-" some plugin or another that I use is assuming I'm in .vim
-" call vundle#rc('~/.vim/bundle')
-call vundle#begin('~/.vim/bundle')
-
 """""""""""""""
 " ALL YOUR PLUGINS ARE BELONG TO ME
 """""""""""""""
-" Indispensible plugins. Note that gmarik/vundle must come first!
-Plugin 'gmarik/vundle'
-Plugin 'tpope/vim-endwise'      " complete if...end blocks and similar
-Plugin 'tpope/vim-git'          " syntax/indent/etc files for git
-Plugin 'tpope/vim-surround'     " 's[urround]' direct object, e.g. ds, cs, ys
-Plugin 'tpope/vim-commentary'   " 'gc' verb to [un]comment lines
-Plugin 'tpope/vim-repeat'       " make '.' work as expected for plugin maps
-Plugin 'tpope/vim-speeddating'  " make <C-x> and <C-a> work on dates
-Plugin 'tpope/vim-fugitive'     " git wrapper, <leader>g*
-Plugin 'tpope/vim-obsession'    " save current open windows, folds, etc
-Plugin 'tpope/vim-abolish'      " 'semantic' substitution? :Subvert, :Abolish
-Plugin 'tpope/vim-vinegar'      " make netrw not suck, 'I' to toggle
-Plugin 'junegunn/goyo.vim'      " distraction-free 'focus' writing mode
-Plugin 'vim-scripts/indentpython.vim'       " PEP8-ier continued line indentation
-Plugin 'tmhedberg/SimpylFold'   " good default code folding Python
-Plugin 'scrooloose/syntastic'   " put externally checked errors in quickfix list
-Plugin 'altercation/vim-colors-solarized'   " color scheme
-Plugin 'bling/vim-airline'      " a powerline thingy for status on bottom/top
-Plugin 'Lokaltog/vim-easymotion'            " skip around, <leader><leader>*
-Plugin 'godlygeek/tabular'      " :Tabularize /<character to align by>
-Plugin 'SirVer/ultisnips'       " autocomplete common long snippets
-Plugin 'honza/vim-snippets'     " various pre-made snippets for UltiSnips
-Plugin 'christoomey/vim-tmux-navigator'     " <A-hjkl> between vimdows and tpanes
-Plugin 'davidhalter/jedi-vim'   " powerful python autcompletion/docs w/o YouCompleteMe
-Plugin 'Valloric/YouCompleteMe' " powerful autocompletion engine. monolithic: TODO: remap
-Plugin 'AndrewRadev/linediff.vim'           " diffs between visual selections
-Plugin 'NLKNguyen/papercolor-theme'         " another color theme
-" not clear why I need this since I use YouCompleteMe" Plugin 'ervandew/supertab'
-" Plugin 'ivanov/vim-ipython'     " run code in an iPython console
-Plugin 'bfredl/nvim-ipy'        " run code in an iPython console
-Plugin 'ctrlpvim/ctrlp.vim'                 " fuzzy file finder, <leader>p*
-Plugin 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
-Plugin 'brunobeltran/vim-vmath' " fork of '++' summarizer for numbers
-Plugin 'brunobeltran/vim-dragvisuals' " move visual selections <Up>/.../<Right>
-
-" TODO
-Plugin 'majutsushi/tagbar'      " browse C/C++ tag files in split
-"decided it's better to just use web interface Plugin 'itchyny/calendar.vim'   " in-vim Calendar w/. Google support? (auth fail..)
+" Use vim-plug for plugins
+set nocompatible
+filetype off
+call plug#begin('~/.vim/plugged')
+Plug 'gmarik/vundle'
+Plug 'tpope/vim-endwise'      " complete if...end blocks and similar
+Plug 'tpope/vim-git'          " syntax/indent/etc files for git
+Plug 'tpope/vim-surround'     " 's[urround]' direct object, e.g. ds, cs, ys
+Plug 'tpope/vim-commentary'   " 'gc' verb to [un]comment lines
+Plug 'tpope/vim-repeat'       " make '.' work as expected for plugin maps
+Plug 'tpope/vim-speeddating'  " make <C-x> and <C-a> work on dates
+Plug 'tpope/vim-fugitive'     " git wrapper, <leader>g*
+Plug 'tpope/vim-obsession'    " save current open windows, folds, etc
+Plug 'tpope/vim-abolish'      " 'semantic' substitution? :Subvert, :Abolish
+Plug 'tpope/vim-vinegar'      " make netrw not suck, 'I' to toggle
+Plug 'vim-scripts/indentpython.vim'       " PEP8-ier continued line indentation
+Plug 'tmhedberg/SimpylFold'   " good default code folding Python
+Plug 'scrooloose/syntastic'   " put externally checked errors in quickfix list
+Plug 'altercation/vim-colors-solarized'   " color scheme
+Plug 'bling/vim-airline'      " a powerline thingy for status on bottom/top
+Plug 'Lokaltog/vim-easymotion'            " skip around, <leader><leader>*
+Plug 'godlygeek/tabular'      " :Tabularize /<character to align by>
+Plug 'SirVer/ultisnips'       " autocomplete common long snippets
+Plug 'honza/vim-snippets'     " various pre-made snippets for UltiSnips
+Plug 'christoomey/vim-tmux-navigator'     " <A-hjkl> between vimdows and tpanes
+Plug 'davidhalter/jedi-vim'   " powerful python autcompletion/docs w/o YouCompleteMe
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } " powerful autocompletion engine. monolithic: TODO: remap
+Plug 'AndrewRadev/linediff.vim'           " diffs between visual selections
+Plug 'NLKNguyen/papercolor-theme'         " another color theme
+Plug 'bfredl/nvim-ipy'        " run code in an iPython console
+Plug 'ctrlpvim/ctrlp.vim'                 " fuzzy file finder, <leader>p*
+Plug 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
+Plug 'brunobeltran/vim-vmath' " fork of '++' summarizer for numbers
+Plug 'brunobeltran/vim-dragvisuals' " move visual selections <Up>/.../<Right>
+Plug 'majutsushi/tagbar'      " browse C/C++ tag files in split
 
 " Required after pulling in all the plugins
-call vundle#end()
+call plug#end()
 filetype plugin indent on
 
 """"""""""""""
 " Now source non-external program dependent, non plugin dependent configs
 """""""""""""""
 " make the config files automatically reload config on write
+if !exists("g:bruno_config_loaded_previously") " include guard for :so autocmds
+
 autocmd! bufwritepost .vimrc source %
-autocmd! bufwritepost config_basic.vim source ~/.vimrc
-autocmd! bufwritepost config_extended.vim source ~/.vimrc
-autocmd! bufwritepost file_specific.vim source ~/.vimrc
+autocmd! bufwritepost config_basic.vim source ~/.vim/config_basic.vim
+autocmd! bufwritepost config_extended.vim source ~/.vim/config_extended.vim
+autocmd! bufwritepost file_specific.vim source ~/.vim/file_specific.vim
 source ~/.vim/config_basic.vim
 source ~/.vim/config_extended.vim
 source ~/.vim/file_specific.vim
