@@ -42,3 +42,9 @@ au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => org-mode specific
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufNewFile,BufRead *.org set textwidth=0
+

@@ -1,18 +1,21 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Automagic File Open/Close Stuff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set viewdir=~/.vim/temp_dirs/viewdir
-set viewoptions-=options
-augroup vimrc
-    autocmd BufWinLeave *
-    \   if expand('%') != '' && &buftype !~ 'nofile'
-    \|      mkview
-    \|  endif
-    autocmd BufWinEnter *
-    \   if expand('%') != '' && &buftype !~ 'nofile'
-    \|      silent! loadview
-    \|  endif
-augroup END
+" This stuff makes loading really slow since
+" loadview is so slow (documented in :help loadview)
+
+" set viewdir=~/.vim/temp_dirs/viewdir
+" set viewoptions-=options
+" augroup vimrc
+"     autocmd BufWinLeave *
+"     \   if expand('%') != '' && &buftype !~ 'nofile'
+"     \|      mkview
+"     \|  endif
+"     autocmd BufWinEnter *
+"     \   if expand('%') != '' && &buftype !~ 'nofile'
+"     \|      silent! loadview
+"     \|  endif
+" augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => GUI related
@@ -220,5 +223,16 @@ endfunc
 
 func! CurrentFileDir(cmd)
     return a:cmd . " " . expand("%:p:h") . "/"
+endfunc
+
+func! BeginProfilingVim()
+    profile start /tmp/vim-profile.log
+    profile func *
+    profile file *
+endfunc
+
+func! FinishProfilingVim()
+    profile pause
+    noautocmd qall!
 endfunc
 

@@ -17,37 +17,41 @@
 set nocompatible
 filetype off
 call plug#begin('~/.vim/plugged')
+Plug 'altercation/vim-colors-solarized'   " color scheme
+Plug 'AndrewRadev/linediff.vim', { 'on': 'Linediff' }          " diffs between visual selections
+Plug 'bfredl/nvim-ipy'        " run code in an iPython console
+Plug 'bling/vim-airline'      " a powerline thingy for status on bottom/top
+Plug 'brunobeltran/vim-dragvisuals' " move visual selections <Up>/.../<Right>
+Plug 'brunobeltran/vim-vmath' " fork of '++' summarizer for numbers
+Plug 'christoomey/vim-tmux-navigator'     " <A-hjkl> between vimdows and tpanes
+Plug 'ctrlpvim/ctrlp.vim'                 " fuzzy file finder, <leader>p*
+Plug 'davidhalter/jedi-vim'   " powerful python autcompletion/docs w/o YouCompleteMe
+Plug 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
 Plug 'gmarik/vundle'
-Plug 'tpope/vim-endwise'      " complete if...end blocks and similar
-Plug 'tpope/vim-git'          " syntax/indent/etc files for git
-Plug 'tpope/vim-surround'     " 's[urround]' direct object, e.g. ds, cs, ys
+Plug 'godlygeek/tabular'      " :Tabularize /<character to align by>
+Plug 'honza/vim-snippets'     " various pre-made snippets for UltiSnips
+Plug 'jceb/vim-orgmode', { 'for' : 'org' }       " emulates Emac's famous orgmode for notetaking
+Plug 'kballard/vim-swift', { 'for' : 'swift' }    " filetype, make commands, syntastic for Swift
+Plug 'Lokaltog/vim-easymotion'            " skip around, <leader><leader>*
+Plug 'majutsushi/tagbar'      " browse C/C++ tag files in split
+Plug 'NLKNguyen/papercolor-theme'         " another color theme
+Plug 'rust-lang/rust.vim'     " filetype, autoformatting, syntastic for rust
+Plug 'scrooloose/syntastic'   " put externally checked errors in quickfix list
+Plug 'SirVer/ultisnips'       " autocomplete common long snippets
+"slow Plug 'tmhedberg/SimpylFold'   " good default code folding Python
+Plug 'tpope/vim-abolish'      " 'semantic' substitution? :Subvert, :Abolish
 Plug 'tpope/vim-commentary'   " 'gc' verb to [un]comment lines
+Plug 'tpope/vim-endwise'      " complete if...end blocks and similar
+Plug 'tpope/vim-fugitive'     " git wrapper, <leader>g*
+Plug 'tpope/vim-git'          " syntax/indent/etc files for git
+Plug 'tpope/vim-obsession'    " save current open windows, folds, etc
 Plug 'tpope/vim-repeat'       " make '.' work as expected for plugin maps
 Plug 'tpope/vim-speeddating'  " make <C-x> and <C-a> work on dates
-Plug 'tpope/vim-fugitive'     " git wrapper, <leader>g*
-Plug 'tpope/vim-obsession'    " save current open windows, folds, etc
-Plug 'tpope/vim-abolish'      " 'semantic' substitution? :Subvert, :Abolish
+Plug 'tpope/vim-surround'     " 's[urround]' direct object, e.g. ds, cs, ys
 Plug 'tpope/vim-vinegar'      " make netrw not suck, 'I' to toggle
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py', 'for': ['cpp', 'c', 'python'] } " powerful autocompletion engine. monolithic.
 Plug 'vim-scripts/indentpython.vim'       " PEP8-ier continued line indentation
-Plug 'tmhedberg/SimpylFold'   " good default code folding Python
-Plug 'scrooloose/syntastic'   " put externally checked errors in quickfix list
-Plug 'altercation/vim-colors-solarized'   " color scheme
-Plug 'bling/vim-airline'      " a powerline thingy for status on bottom/top
-Plug 'Lokaltog/vim-easymotion'            " skip around, <leader><leader>*
-Plug 'godlygeek/tabular'      " :Tabularize /<character to align by>
-Plug 'SirVer/ultisnips'       " autocomplete common long snippets
-Plug 'honza/vim-snippets'     " various pre-made snippets for UltiSnips
-Plug 'christoomey/vim-tmux-navigator'     " <A-hjkl> between vimdows and tpanes
-Plug 'davidhalter/jedi-vim'   " powerful python autcompletion/docs w/o YouCompleteMe
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } " powerful autocompletion engine. monolithic: TODO: remap
-Plug 'AndrewRadev/linediff.vim'           " diffs between visual selections
-Plug 'NLKNguyen/papercolor-theme'         " another color theme
-Plug 'bfredl/nvim-ipy'        " run code in an iPython console
-Plug 'ctrlpvim/ctrlp.vim'                 " fuzzy file finder, <leader>p*
-Plug 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
-Plug 'brunobeltran/vim-vmath' " fork of '++' summarizer for numbers
-Plug 'brunobeltran/vim-dragvisuals' " move visual selections <Up>/.../<Right>
-Plug 'majutsushi/tagbar'      " browse C/C++ tag files in split
+Plug 'vim-scripts/utl.vim'    " Open links from Vim!
 
 " Required after pulling in all the plugins
 call plug#end()
@@ -268,15 +272,15 @@ let g:ycm_key_list_previous_completion=['<Up>']
 
 
 " MAD SNIPPETS, YO
-" let g:UltiSnipsExpandTrigger="<c-x>"
-" let g:UltiSnipsJumpForwardTrigger="<c-a>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-s>"
 " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 let g:UltiSnipsSnippetDirectories=['UltiSnips']
 "" Ultisnips
 let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-m>"
+let g:UltiSnipsListSnippets="<c-l>"
 
 " function! g:UltiSnips_Complete()
 "     call UltiSnips#ExpandSnippet()
@@ -327,9 +331,10 @@ nmap         ++  vip++
 
 " nvim-ipy mappings, j for Jupyter
 " not clear what interrupt and terminate should be mapped to
+let g:nvim_ipy_perform_mappings = 0
 map <silent> <leader>jr <Plug>(IPy-Run)
 map <silent> <C-x><C-j> <Plug>(IPy-Complete)
 map <silent> <leader>j? <Plug>(IPy-WordObjInfo)
 map <silent> <leader>jk <Plug>(IPy-WordObjInfo)
-map <silent> <leader>ji <Plug>(IPy-Interrupt)
-map <silent> <leader>jx <Plug>(IPy-Terminate)
+map <silent> <leader>j<c-c> <Plug>(IPy-Interrupt)
+map <silent> <leader>j<c-d> <Plug>(IPy-Terminate)
