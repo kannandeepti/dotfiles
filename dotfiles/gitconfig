@@ -4,3 +4,5 @@
 [user]
 	email = brunobeltran0@gmail.com
 	name = Bruno Beltran
+[branch]
+	autosetuprebase = always

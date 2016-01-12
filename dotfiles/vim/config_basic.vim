@@ -20,6 +20,8 @@ set autoread
 nnoremap <Space> <Nop>
 let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
+let maplocalleader = "\<Space>"
+let g:maplocalleader = "\<Space>"
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -135,11 +137,6 @@ syntax enable
 " prettier colors, even in terminal
 set t_Co=256
 
-try
-    colorscheme solarized
-catch
-endtry
-
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -151,7 +148,7 @@ if has("gui_running")
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
+"set encoding=utf8
 
 " Use Unix as the standard file type
 "set ffs=unix,dos,mac
@@ -301,6 +298,12 @@ endfunc
 " a nice shortcut for it
 map <leader>dtw :call DeleteTrailingWS()<cr>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set foldenable
+set foldlevelstart=10
+set foldnestmax=10
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking

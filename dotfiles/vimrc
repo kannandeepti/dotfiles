@@ -3,16 +3,14 @@
 " Rules about mappings:
 "   1) (almost) never overwrite vanilla vim mappings
 "   2) additional simple text-editing commands can be mapped without leader
-"   3) commands that rely on external programs should be mapped with leader
+"   3) commands that rely on external programs/most plugins should be mapped
+"   with leader
 "   4) commands should be grouped to be easy to use in vim's noun-verb-adverb[s]
 "   convention. e.g. do not do anything that would require a count to go at the
 "   end, and group commands so that they feel "composed" even if they're not,
 "   like <leader>ga, <leader>gs, <leader>gc, for :Gitadd/status/commit.
 
-
-"""""""""""""""
-" ALL YOUR PLUGINS ARE BELONG TO ME
-"""""""""""""""
+" {{{ ALL YOUR PLUGINS ARE BELONG TO ME
 " Use vim-plug for plugins
 set nocompatible
 filetype off
@@ -30,15 +28,21 @@ Plug 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
 Plug 'gmarik/vundle'
 Plug 'godlygeek/tabular'      " :Tabularize /<character to align by>
 Plug 'honza/vim-snippets'     " various pre-made snippets for UltiSnips
-Plug 'jceb/vim-orgmode', { 'for' : 'org' }       " emulates Emac's famous orgmode for notetaking
+Plug 'jceb/vim-orgmode'       " emulates Emac's famous orgmode for notetaking
 Plug 'kballard/vim-swift', { 'for' : 'swift' }    " filetype, make commands, syntastic for Swift
 Plug 'Lokaltog/vim-easymotion'            " skip around, <leader><leader>*
 Plug 'majutsushi/tagbar'      " browse C/C++ tag files in split
+Plug 'mattn/calendar-vim'     " for calendar integration in orgmode
+Plug 'mbbill/undotree'        " visualize Vim's undo tree
+Plug 'mhinz/vim-startify'     " TODO: setup after all components are in place for better landing screen
+Plug 'mileszs/ack.vim'        " drop grep results into quickfix list
 Plug 'NLKNguyen/papercolor-theme'         " another color theme
+Plug 'python-rope/ropevim', { 'do': 'sudo python ./setup.py install' }    " advance refactoring library for python
 Plug 'rust-lang/rust.vim'     " filetype, autoformatting, syntastic for rust
 Plug 'scrooloose/syntastic'   " put externally checked errors in quickfix list
 Plug 'SirVer/ultisnips'       " autocomplete common long snippets
 "slow Plug 'tmhedberg/SimpylFold'   " good default code folding Python
+Plug 'tomasr/molokai'         " nice color scheme
 Plug 'tpope/vim-abolish'      " 'semantic' substitution? :Subvert, :Abolish
 Plug 'tpope/vim-commentary'   " 'gc' verb to [un]comment lines
 Plug 'tpope/vim-endwise'      " complete if...end blocks and similar
@@ -50,35 +54,40 @@ Plug 'tpope/vim-speeddating'  " make <C-x> and <C-a> work on dates
 Plug 'tpope/vim-surround'     " 's[urround]' direct object, e.g. ds, cs, ys
 Plug 'tpope/vim-vinegar'      " make netrw not suck, 'I' to toggle
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py', 'for': ['cpp', 'c', 'python'] } " powerful autocompletion engine. monolithic.
+augroup ycm
+    autocmd!
+    autocmd User YouCompleteMe call youcompleteme#Enable()
+augroup END
 Plug 'vim-scripts/indentpython.vim'       " PEP8-ier continued line indentation
+Plug 'vim-scripts/matchit.zip'
 Plug 'vim-scripts/utl.vim'    " Open links from Vim!
 
 " Required after pulling in all the plugins
 call plug#end()
 filetype plugin indent on
+" }}}
 
-""""""""""""""
-" Now source non-external program dependent, non plugin dependent configs
-"""""""""""""""
+"{{{ => source non-external program dependent, non plugin dependent configs
+
 " make the config files automatically reload config on write
-if !exists("g:bruno_config_loaded_previously") " include guard for :so autocmds
+augroup autoreload
+    autocmd!
+    autocmd BufWritePost .vimrc source %
+    autocmd BufWritePost config_basic.vim source ~/.vim/config_basic.vim
+    autocmd BufWritePost config_extended.vim source ~/.vim/config_extended.vim
+    autocmd BufWritePost file_specific.vim source ~/.vim/file_specific.vim
+    autocmd BufWritePost .vimrc,config_basic.vim,config_extended.vim,file_specific.vim colorscheme solarized
+augroup END
 
-autocmd! bufwritepost .vimrc source %
-autocmd! bufwritepost config_basic.vim source ~/.vim/config_basic.vim
-autocmd! bufwritepost config_extended.vim source ~/.vim/config_extended.vim
-autocmd! bufwritepost file_specific.vim source ~/.vim/file_specific.vim
 source ~/.vim/config_basic.vim
 source ~/.vim/config_extended.vim
 source ~/.vim/file_specific.vim
 
-endif " END include guard for sourcing autocmds
-let g:bruno_config_loaded_previously=1
+"}}}
 
-""""""""""""""""
-" Now some plugins that need configuration
-""""""""""""""""
+"{{{ => Plugin Configuration
 
-" fugitive git bindings
+"{{{ => Fugitive (git bindings)
 nnoremap <space>ga :Git add %:p<CR><CR>
 nnoremap <space>gs :Gstatus<CR>
 nnoremap <space>gc :Gcommit -v -q<CR>
@@ -94,7 +103,9 @@ nnoremap <space>gb :Git branch<Space>
 nnoremap <space>go :Git checkout<Space>
 nnoremap <space>gps :Dispatch! git push<CR>
 nnoremap <space>gpl :Dispatch! git pull<CR>
+"}}}
 
+"{{{ => CtrlP (fuzzy file finder)
 " ctrl-p's name/default map overrides a feature I use commonly
 let g:ctrlp_map = ''
 nnoremap <leader>pp :CtrlP<cr>
@@ -135,8 +146,9 @@ if executable("ag")
     set grepprg=ag\ --nogroup\ --nocolor
     let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 endif
+"}}}
 
-" use pylint for syntastic
+"{{{ => Syntastic (syntax checker)
 " let g:syntastic_python_checkers = ['pyflakes3', 'pylint']
 let g:syntastic_python_checkers = ['pyflakes3']
 " known bug in pylint caused by dynamically created functions
@@ -145,7 +157,9 @@ let g:syntastic_python_pylint_args = "--extension-pkg-whitelist=numpy"
 let g:syntastic_check_on_wq = 0
 " always populate loc list
 let g:syntastic_always_populate_loc_list = 1
+"}}}
 
+"{{{ => Airline (fancy statusline)
 " airline is special, usually requires patched fonts
 " Plugin 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled=1
@@ -153,13 +167,18 @@ let g:airline#extensions#tabline#buffer_nr_show=1
 let g:airline_theme="luna"
 set laststatus=2
 let g:airline_powerline_fonts = 1
+colorscheme solarized
 "set encoding=utf-8
-"let g:airline_powerline_fonts = 1
 "set guifont=Fira\ Mono\ Medium\ for\ Powerline:h9
+"}}}
 
-" Easymotion
-" Plugin 'Lokaltog/vim-easymotion'
+"{{{ => Easymotion (avoid repeating h,j,k,l,n,N)
+"
+
+" Recently, <Leader><Leader> was made the plugin-wide prefix for the default
+" mappings, obsoleting my manual mappings below.
 " remove <leader> to use for search by default
+let g:easymotion_do_mapping=0
 map  <Leader><Leader>/ <Plug>(easymotion-sn)
 omap <Leader><Leader>/ <Plug>(easymotion-tn)
 vmap <Leader><Leader>/ <Plug>(easymotion-tn)
@@ -173,17 +192,22 @@ map <Leader><Leader>h <Plug>(easymotion-linebackward)
 let g:EasyMotion_startofline = 0
 " smartcase is nice, so only match case if you include an uppercase letter
 let g:EasyMotion_smartcase = 1
+"}}}
 
+"{{{ => Vim-OrgMode
+let g:org_agenda_files = ['~/developer/org-mode-notes/index.org']
+"}}}
 
-" ack, better version of grep
-" Plugin 'mileszs/ack.vim'
-
-
+"{{{ => Tabular (align things in tables)
 " tabularize can be used to line up stuff based on regexes
 " Plugin 'godlygeek/tabular'
 " here's a mapping to automatically alighn on | when typing cucumber tables I'd
 " like to extend this to align on & (but not on \&), and not in any "verbatim"
 " modes like verbatim or lstlisting.
+"
+" maybe somethign cool would be to have a mapping that autodetects the last kind
+" of tabularization used manually and then continues to apply it to that section
+" of the file as we type. would solve the org-mode tables conundrum
 ""  inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 ""  function! s:align()
 ""  let p = '^\s*|\s.*\s|\s*$'
@@ -195,8 +219,17 @@ let g:EasyMotion_smartcase = 1
 ""      call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
 ""  endif
 ""  endfunction
+"}}}
 
+"{{{ => Ack.vim (faster than vimgrep)
+" this plugin already intelligently only loads itself if Ack is present on the
+" system, but if we have ag, we want to use that instead, since it's faster.
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
+"}}}
 
+"{{{ => Vim-Tmux Navigator (seamless motion between tmux panes and vim windows)
 " Make a seamless interface with tmux
 " REQUIRES: extra config on tmux side
 " use custom bindings
@@ -209,44 +242,55 @@ if has("win16") || has("win32")
     noremap <silent> <C-S-l> :TmuxNavigateRight<cr>
     noremap <silent> <C-S-\> :TmuxNavigatePrevious<cr>
 elseif has("unix") || has("linux")
-    cnoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
-    cnoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
-    cnoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
-    cnoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
-    cnoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
-    inoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
-    inoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
-    inoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
-    inoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
-    inoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
-    noremap <silent> <M-h> :TmuxNavigateLeft<cr>
-    noremap <silent> <M-j> :TmuxNavigateDown<cr>
-    noremap <silent> <M-k> :TmuxNavigateUp<cr>
-    noremap <silent> <M-l> :TmuxNavigateRight<cr>
-    noremap <silent> <M-\> :TmuxNavigatePrevious<cr>
-    cnoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
-    cnoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
-    cnoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
-    cnoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
-    cnoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
-    inoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
-    inoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
-    inoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
-    inoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
-    inoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
-    noremap <silent> <M-h> :TmuxNavigateLeft<cr>
-    noremap <silent> <M-j> :TmuxNavigateDown<cr>
-    noremap <silent> <M-k> :TmuxNavigateUp<cr>
-    noremap <silent> <M-l> :TmuxNavigateRight<cr>
-    noremap <silent> <M-\> :TmuxNavigatePrevious<cr>
+    " nvim handles meta better than vim-gtk or stock vim
+    if has("nvim")
+        cnoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
+        cnoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
+        cnoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
+        cnoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
+        cnoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
+        inoremap <silent> <M-h> <C-c>:TmuxNavigateLeft<cr>
+        inoremap <silent> <M-j> <C-c>:TmuxNavigateDown<cr>
+        inoremap <silent> <M-k> <C-c>:TmuxNavigateUp<cr>
+        inoremap <silent> <M-l> <C-c>:TmuxNavigateRight<cr>
+        inoremap <silent> <M-\> <C-c>:TmuxNavigatePrevious<cr>
+        noremap  <silent> <M-h> :TmuxNavigateLeft<cr>
+        noremap  <silent> <M-j> :TmuxNavigateDown<cr>
+        noremap  <silent> <M-k> :TmuxNavigateUp<cr>
+        noremap  <silent> <M-l> :TmuxNavigateRight<cr>
+        noremap  <silent> <M-\> :TmuxNavigatePrevious<cr>
+    " in stock vim, we have to co-op the escape mode to map alt-j
+    else
+        cnoremap <silent> h <C-c>:TmuxNavigateLeft<cr>
+        cnoremap <silent> j <C-c>:TmuxNavigateDown<cr>
+        cnoremap <silent> k <C-c>:TmuxNavigateUp<cr>
+        cnoremap <silent> l <C-c>:TmuxNavigateRight<cr>
+        cnoremap <silent> \ <C-c>:TmuxNavigatePrevious<cr>
+        inoremap <silent> h <C-c>:TmuxNavigateLeft<cr>
+        inoremap <silent> j <C-c>:TmuxNavigateDown<cr>
+        inoremap <silent> k <C-c>:TmuxNavigateUp<cr>
+        inoremap <silent> l <C-c>:TmuxNavigateRight<cr>
+        inoremap <silent> \ <C-c>:TmuxNavigatePrevious<cr>
+        noremap  <silent> h :TmuxNavigateLeft<cr>
+        noremap  <silent> j :TmuxNavigateDown<cr>
+        noremap  <silent> k :TmuxNavigateUp<cr>
+        noremap  <silent> l :TmuxNavigateRight<cr>
+        noremap  <silent> \ :TmuxNavigatePrevious<cr>
+    endif
 endif
+"}}}
 
-" Finally
-"""""""""""""
-" omnicompletion/"intellisense
-"""""""""""""
-set tags+=tags;$HOME
+"{{{ => ctags (tag file generator)
+" where to look for tags. look for files called tags,ctags,.tags,.ctags starting
+" in the current file's directory and recursively going up the filesystem,
+" stopping if the home directory is encountered
+set tags+=~/.vim/python_tags,~/.vim/cstdtags,./tags;$HOME,./ctags;$HOME,./.tags;$HOME,./.ctags;$HOME
+" we should probably have some regularly updated global python tags and global
+" ctags that know about the system-installed libraries
+"TODO
+"}}}
 
+"{{{ => Jedi (omnicomplete, basic refactoring, documentation for python)
 " Baller addition to omnicompletion: JEDI-VIM
 " auto-shows docs on typing, renames, goto def, etc
 " Plugin 'davidhalter/jedi-vim'
@@ -263,14 +307,22 @@ let g:jedi#documentation_command = "<leader>kk"
 map <leader>k? <leader>kk
 let g:jedi#usages_command = "<leader>ku"
 let g:jedi#rename_command = "<leader>kr"
+"}}}
+"
+"{{{ => Ropevim (Python-Rope Refactoring Library Bindings)
+let ropevim_local_prefix="<leader>r"
+let ropevim_global_prefix="<leader>rp"
+let ropevim_enable_shortcuts=0
+"}}}
 
-" YOU COMPLETE ME
+"{{{ => YouCompleteMe (monolithic autocomplete engine)
 " Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 let g:ycm_extra_conf_globlist = ['~/developer/*/*', '~/*']
 let g:ycm_key_list_previous_completion=['<Up>']
+"}}}
 
-
+"{{{ => UltiSnips (auto-type common snippets with fill-able fields)
 " MAD SNIPPETS, YO
 " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
@@ -297,6 +349,8 @@ let g:UltiSnipsListSnippets="<c-l>"
 "     return ""
 " endfunction
 
+
+
 " au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsListSnippets="<c-e>"
@@ -304,16 +358,11 @@ let g:UltiSnipsListSnippets="<c-l>"
 " " and close the selection list, same as other IDEs.
 " " CONFLICT with some plugins like tpope/Endwise
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-"
+"}}}
 
+"{{{ => DragVisuals (move visual boxes around with arrows)
 " from Damian Conway
 "====[ dragvisuals ]====================
-"#########################################################################
-"##                                                                     ##
-"##  Add the following (uncommented) to your .vimrc...                  ##
-"##                                                                     ##
-runtime plugin/dragvisuals.vim
-
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
 vmap  <expr>  <DOWN>   DVB_Drag('down')
@@ -321,20 +370,33 @@ vmap  <expr>  <UP>     DVB_Drag('up')
 vmap  <expr>  D        DVB_Duplicate()
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS=1
+"}}}
 
+"{{{ => VMath (stat summary of selections & columns)
 "====[ vmath ]====================
 vmap <expr>  ++  VMATH_YankAndAnalyse()
 nmap         ++  vip++
+"}}}
 
+"{{{ => Abolish (insert-mode abbreviations list)
 " Abolish abbreviations
-" Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}
+"Abolish {despa,sepe}rat{e,es,ed,ing,ely,ion,ions,or}  {despe,sepa}rat{}
+"}}}
 
+"{{{ => nvim-ipy (attach to jupyter session)
 " nvim-ipy mappings, j for Jupyter
 " not clear what interrupt and terminate should be mapped to
 let g:nvim_ipy_perform_mappings = 0
+map <silent> <leader>jp2 <Esc>:IPython<Cr>
+map <silent> <leader>jp3 <Esc>:IPython3<Cr>
+map <silent> <leader>jpj <Esc>:IJulia<Cr>
 map <silent> <leader>jr <Plug>(IPy-Run)
 map <silent> <C-x><C-j> <Plug>(IPy-Complete)
 map <silent> <leader>j? <Plug>(IPy-WordObjInfo)
 map <silent> <leader>jk <Plug>(IPy-WordObjInfo)
 map <silent> <leader>j<c-c> <Plug>(IPy-Interrupt)
 map <silent> <leader>j<c-d> <Plug>(IPy-Terminate)
+
+"}}}
+
+"}}}
