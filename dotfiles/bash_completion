@@ -1,0 +1,3 @@
+if type conda >/dev/null 2>&1 && conda list argcomplete >/dev/null 2>&1; then
+    eval "$(register-python-argcomplete conda)"
+fi

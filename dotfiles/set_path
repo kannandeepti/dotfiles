@@ -3,6 +3,9 @@
 # get jupyterhub to work
 export PATH="${PATH}:~/developer/virtualenvs/jupyter"
 
+# use conda by default
+# export PATH="~/anaconda3/bin/:${PATH}"
+
 # Set up spark manually for Christine
 export PATH="${PATH}:/opt/spark"
 # Programs that are installed outside of apt should be in /opt
