@@ -102,16 +102,17 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# so slow!
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /etc/bash_completion ]; then
-      . /etc/bash_completion
-  fi
-  if [ -f ~/.bash_completion ]; then
-      . ~/.bash_completion
-  fi
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+if [ -f ~/.bash_completion ]; then
+    . ~/.bash_completion
+fi
 fi
 
 # Set vim as my editor
@@ -127,3 +128,6 @@ fi
 stty stop undef
 
 export TERM=screen-256color-bce
+
+# null statement at end prevents bash from having $? be 1 at each startup
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx || :

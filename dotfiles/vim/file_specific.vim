@@ -2,7 +2,11 @@
 augroup filespecificconfig
 
 "{{{ => TeX specific
-au FileType tex set makeprg=pdflatex\ %:r\ &&\ bibtex\ %:r\ &&\ pdflatex\ %:r\ &&\ pdflatex\ %:r
+
+" this makeprg should execute pdflatex,bibtex,pdflatex,pdflatex on the current
+" file, unless bibtex fails, in which case it will simply execute two pdflatex's
+" in a row
+au FileType tex set makeprg=pdflatex\ %:r\ &&\ bibtex\ %:r\ &&\ pdflatex\ %:r\ &&\ pdflatex\ %:r\ \\\|\\\|\ pdflatex\ %:r
 "}}}
 
 "{{{ => Python specific

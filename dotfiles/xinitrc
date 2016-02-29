@@ -1,9 +1,26 @@
 #!/usr/bin/env bash
 
+program_exists () {
+    if type "$1" >/dev/null 2>&1; then
+        return 0
+    else
+        return -1
+    fi
+}
+
+is_already_running () {
+    if [[ $(ps aux | grep "$1" | wc -l) -gt 1 ]]; then
+        return 0
+    else
+        return false
+    fi
+}
+
+# all actions below are now safe to re-execute, keeping this for doc purposes
 #if [ -z ${_IMPORTED_BRUNO_XINITRC+x} ]; then
 #    echo "Already imported xinitrc."
 #else
-export _IMPORTED_BRUNO_XINITRC=1
+#export _IMPORTED_BRUNO_XINITRC=1
 
 # [ -x /usr/lib/notify-osd/notify-osd && `ps aux | grep notify-osd | wc -l` -gt 1 ] && /usr/lib/notify-osd/notify-osd &
 
@@ -51,26 +68,42 @@ fi
 # now make sure that we use a standard cursor instead of the default "X"
 xsetroot -cursor_name left_ptr
 
-# autoxrandr.sh sets external monitor settings and wallpapers
-if type autoxrandr.sh >/dev/null 2>&1; then
-    /home/bbeltr1/bin/autoxrandr.sh &
-fi
-
+# run usual apps in the background
 # and start a terminator session
-if type terminator >/dev/null 2>&1; then
+if program_exists terminator && ! is_already_running terminator; then
     terminator --command="bash -ic 'tmux attach'" &
 fi
 
 #hash optirun 2>/dev/null \
     #&& optirun google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" \
     #|| google-chrome "https://mail.google.com/mail/u/0/#inbox" "https://www.google.com/calendar/render#g" &
-if type firefox >/dev/null 2>&1; then
-    firefox & # always-up pages are now pinned #"https://mail.google.com/mail/u/0/#inbox" "https://webmail.stanford.edu" "https://www.google.com/calendar/render#g" &
+if program_exists iceweasel && ! is_already_running iceweasel; then
+    iceweasel & # always-up pages are now pinned #"https://mail.google.com/mail/u/0/#inbox" "https://webmail.stanford.edu" "https://www.google.com/calendar/render#g" &
 fi
 
 # start f.lux for X in Palo Alto time zone
-if type xflux >/dev/null 2>&1; then
+if program_exists xflux && ! is_already_running xflux; then
     xflux -z 94305 &
 fi
 
+# these two are run in the foreground since they must go in order and work can't
+# start without them anyway
+
+# autoxrandr.sh sets external monitor settings and wallpapers
+if program_exists autoxrandr.sh; then
+    /home/bbeltr1/bin/autoxrandr.sh
+fi
+
+# set the wallpaper
+if program_exists feh; then
+    feh --bg-fill /home/bbeltr1/Pictures/Wallpapers/japan-bridge.jpg
+fi
+
+
 #fi # end include wrapper
+
+if program_exists xmonad; then
+    exec ck-launch-session dbus-launch --sh-syntax --exit-with-session xmonad
+else
+    echo "ERROR: SUCCESSFULLY LAUNCHED X, BUT NO XMONAD EXECUTABLE EXISTS."
+fi

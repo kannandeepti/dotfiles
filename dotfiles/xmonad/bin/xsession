@@ -4,28 +4,6 @@
 # http://github.com/vicfryzel/xmonad-config
 
 # when you're using GDM, this is redundant. With nodm, this is necessary.
-#. ~/.xinitrc
-
-# Configure X
-# xsetroot -cursor_name left_ptr &
-# xrdb -merge ~/.Xdefaults &
-
-# Start the system tray
-# tray &
-
-# Start two terminals
-#gnome-terminal &
-#gnome-terminal &
-
-# Start a browser
-#google-chrome &
-
-# Start screensaver
-# Kill gnome-screensaver if started by default
-# killall gnome-screensaver &
-# xscreensaver -no-splash &
-
-# Start sound server
-# pulseaudio --start &
+. ~/.xinitrc
 
 exec ck-launch-session dbus-launch --sh-syntax --exit-with-session xmonad

@@ -46,7 +46,8 @@ myTerminal = "/usr/bin/terminator"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..8] ++ ["9:spark"]
+
+myWorkspaces = ["1:term","2:web","3:games","4:vm"] ++ map show [5..9] -- ++ ["9:spark"]
 
 
 ------------------------------------------------------------------------
@@ -65,23 +66,23 @@ myWorkspaces = ["1:term","2:web","3:code","4:vm","5:media"] ++ map show [6..8] +
 --
 myManageHook = composeAll
     [ className =? "Chromium"       --> doShift "2:web"
-    , className =? "Google-chrome"  --> doShift "2:web"
-    , className =? "Firefox"        --> doShift "2:web"
-    , className =? "iceweasel"      --> doShift "2:web"
-    , className =? "Iceweasel"      --> doShift "2:web"
-    , className =? "IceWeasel"      --> doShift "2:web"
+-- tired of not finding popups    , className =? "Google-chrome"  --> doShift "2:web"
+--    , className =? "Firefox"        --> doShift "2:web"
+--    , className =? "iceweasel"      --> doShift "2:web"
+--    , className =? "Iceweasel"      --> doShift "2:web"
+--    , className =? "IceWeasel"      --> doShift "2:web"
     , resource  =? "desktop_window" --> doIgnore
     , className =? "Galculator"     --> doFloat
     , className =? "Steam"          --> doFloat
-    , className =? "Gimp"           --> doFloat
+-- I use gimp in single window now --    , className =? "Gimp"           --> doFloat
     , resource  =? "gpicview"       --> doFloat
     , className =? "MPlayer"        --> doFloat
     , className =? "VirtualBox"     --> doShift "4:vm"
     , className =? "Xchat"          --> doShift "5:media"
     , className =? "stalonetray"    --> doIgnore
     , title     =? "Spark"          --> doShift "9:spark"
-    , title     =? "TabCompletionPopup" --> doFloat
-    , title     =? "FunctionHints"  --> doFloat
+    , title     =? "TabCompletionPopup" --> doIgnore
+    , title     =? "FunctionHints"  --> doIgnore
     , isFullscreen --> (doF W.focusDown <+> doFullFloat)]
 
 
@@ -209,23 +210,23 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
   -- Audio previous.
   , ((0, 0x1008FF16),
-     spawn "ncmpcpp prev")
+     spawn "mpc prev")
 
   -- Play/pause.
   -- the keycode for pause/play on fancy keyboards
   , ((0, 0x1008FF14),
-     spawn "ncmpcpp toggle")
+     spawn "mpc toggle")
   -- (sort of) mimic ncmpcpp's controls
   , ((modMask .|. shiftMask, xK_p),
-     spawn "ncmpcpp toggle")
+     spawn "mpc toggle")
 
   -- Stop mpd audio.
   , ((0, 0x1008FF15),
-     spawn "ncmpcpp stop")
+     spawn "mpc stop")
 
   -- Audio mpd next.
   , ((0, 0x1008FF17),
-     spawn "ncmpcpp next")
+     spawn "mpc next")
 
   -- Eject CD tray.
   , ((0, 0x1008FF2C),
