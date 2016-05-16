@@ -6,6 +6,11 @@ export PATH="${PATH}:~/developer/virtualenvs/jupyter"
 # added by Miniconda3 3.19.0 installer
 export PATH="/home/bbeltr1/.miniconda/bin:$PATH"
 
+# Fiji is Just ImageJ
+export PATH="/opt/Fiji.app/:${PATH}"
+
+# The GNU interface for Dynu DDNS
+export PATH="${PATH}:/usr/local/gdipc/bin"
 
 # Set up spark manually for Christine
 export PATH="${PATH}:/opt/spark"
@@ -26,6 +31,9 @@ export PATH=$PATH:~/.cabal/bin:~/.xmonad/bin
 
 # stuff "stack" told me to do
 export PATH=$PATH:/home/bbeltr1/.stack/programs/x86_64-linux/ghc-7.8.4/bin
+
+# cgoban is a weird java program to play Go on the KGS server
+export PATH="${PATH}:/opt/cgoban"
 
 
 # I like begin able to execute things in the working directory with highest

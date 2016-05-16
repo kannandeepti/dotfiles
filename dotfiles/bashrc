@@ -125,6 +125,9 @@ if [ -f ~/.set_path ]; then
     . ~/.set_path
 fi
 
+# get matlab working in Jupyter
+MATLAB_EXECUTABLE=/home/bbeltr1/bin/mat
+
 stty stop undef
 
 export TERM=screen-256color-bce
