@@ -19,6 +19,7 @@ Plug 'altercation/vim-colors-solarized'   " color scheme
 Plug 'AndrewRadev/linediff.vim', { 'on': 'Linediff' }          " diffs between visual selections
 Plug 'bfredl/nvim-ipy'        " run code in an iPython console
 Plug 'bling/vim-airline'      " a powerline thingy for status on bottom/top
+Plug 'vim-airline/vim-airline-themes'      " a powerline thingy for status on bottom/top
 Plug 'brunobeltran/vim-dragvisuals' " move visual selections <Up>/.../<Right>
 Plug 'brunobeltran/vim-vmath' " fork of '++' summarizer for numbers
 Plug 'christoomey/vim-tmux-navigator'     " <A-hjkl> between vimdows and tpanes
@@ -27,6 +28,7 @@ Plug 'davidhalter/jedi-vim'   " powerful python autcompletion/docs w/o YouComple
 Plug 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
 Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }    " stephendiehl.com/posts/vim_2016.html
 Plug 'eagletmt/neco-ghc', {'for': 'haskell' }    " stephendiehl.com/posts/vim_2016.html
+Plug 'Shougo/vimproc.vim', {'for': 'haskell', 'do': 'make'}
 Plug 'gmarik/vundle'
 Plug 'godlygeek/tabular'      " :Tabularize /<character to align by>
 Plug 'honza/vim-snippets'     " various pre-made snippets for UltiSnips
