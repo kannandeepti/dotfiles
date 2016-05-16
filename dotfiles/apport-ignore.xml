@@ -1,5 +1,0 @@
-<?xml version="1.0" ?>
-<apport>
-  <ignore mtime="1405437121" program="/usr/bin/nm-connection-editor"/>
-  <ignore mtime="1398257333" program="/usr/bin/clementine"/>
-</apport>
