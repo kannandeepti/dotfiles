@@ -4,6 +4,7 @@ dotfiles/nvim/temp_dirs
 dotfiles/nvim/bundle
 dotfiles/ipython/profile_default/security
 dotfiles/ipython/profile_default/log
+dotfiles/ipython/profile_default/db/dhist
 *.sqlite
 dotfiles/xmonad/xmonad*
 !dotfiles/xmonad/xmonad.hs

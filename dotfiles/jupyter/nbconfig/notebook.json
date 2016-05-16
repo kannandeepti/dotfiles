@@ -1,8 +1,8 @@
 {
+  "autosavetime_set_starting_interval": true,
+  "zenmode_set_zenmode_on_load": false,
   "load_extensions": {
-    "IPython-notebook-extensions/usability/dragdrop/main": true,
-    "IPython-notebook-extensions/testing/hierarchical_collapse": true,
-    "IPython-notebook-extensions/usability/chrome-clipboard/main": true,
-    "IPython-notebook-extensions/testing/latex_envs/latex_envs": true
-  }
+    "usability/collapsible_headings/main": true
+  },
+  "collapsible_headings_make_toggle_controls_buttons": true
 }
