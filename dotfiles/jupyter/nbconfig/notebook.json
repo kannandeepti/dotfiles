@@ -1,8 +1,11 @@
 {
-  "autosavetime_set_starting_interval": true,
   "zenmode_set_zenmode_on_load": false,
+  "collapsible_headings_make_toggle_controls_buttons": true,
+  "autosavetime_set_starting_interval": true,
   "load_extensions": {
-    "usability/collapsible_headings/main": true
+    "usability/scratchpad/main": true,
+    "usability/collapsible_headings/main": true,
+    "usability/toc2/main": true
   },
-  "collapsible_headings_make_toggle_controls_buttons": true
+  "toc_cell": true
 }
