@@ -74,6 +74,7 @@ myManageHook = composeAll
     , resource  =? "desktop_window" --> doIgnore
     , className =? "Galculator"     --> doFloat
     , className =? "kcalc"          --> doFloat
+    , className =? "KCalc"          --> doFloat
     , className =? "Steam"          --> doFloat
 -- I use gimp in single window now --    , className =? "Gimp"           --> doFloat
     , resource  =? "gpicview"       --> doFloat
