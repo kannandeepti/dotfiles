@@ -26,6 +26,7 @@ Plug 'christoomey/vim-tmux-navigator'     " <A-hjkl> between vimdows and tpanes
 Plug 'ctrlpvim/ctrlp.vim'                 " fuzzy file finder, <leader>p*
 Plug 'davidhalter/jedi-vim'   " powerful python autcompletion/docs w/o YouCompleteMe
 Plug 'FelikZ/ctrlp-py-matcher'            " make ctrlp faster
+Plug 'flazz/vim-colorschemes' " lots of colorschemes
 Plug 'eagletmt/ghcmod-vim', { 'for': 'haskell' }    " stephendiehl.com/posts/vim_2016.html
 Plug 'eagletmt/neco-ghc', {'for': 'haskell' }    " stephendiehl.com/posts/vim_2016.html
 Plug 'Shougo/vimproc.vim', {'for': 'haskell', 'do': 'make'}
@@ -80,7 +81,7 @@ augroup autoreload
     autocmd BufWritePost config_basic.vim source ~/.vim/config_basic.vim
     autocmd BufWritePost config_extended.vim source ~/.vim/config_extended.vim
     autocmd BufWritePost file_specific.vim source ~/.vim/file_specific.vim
-    autocmd BufWritePost .vimrc,config_basic.vim,config_extended.vim,file_specific.vim colorscheme solarized
+    autocmd BufWritePost .vimrc,config_basic.vim,config_extended.vim,file_specific.vim " colorscheme solarized
 augroup END
 
 source ~/.vim/config_basic.vim
@@ -171,7 +172,8 @@ let g:airline#extensions#tabline#buffer_nr_show=1
 let g:airline_theme="luna"
 set laststatus=2
 let g:airline_powerline_fonts = 1
-colorscheme solarized
+set term=screen-256color
+colorscheme desert
 "set encoding=utf-8
 "set guifont=Fira\ Mono\ Medium\ for\ Powerline:h9
 "}}}

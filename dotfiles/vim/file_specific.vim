@@ -39,9 +39,9 @@ au filetype python set fileformat=unix
 " }}}
 
 "{{{ => Web specific
-au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2
-au BufNewFile,BufRead *.js, *.html, *.css set softtabstop=2
-au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2
+"au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2
+"au BufNewFile,BufRead *.js, *.html, *.css set softtabstop=2
+"au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2
 au BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 
