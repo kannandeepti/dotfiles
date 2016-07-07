@@ -102,8 +102,8 @@ fi
 
 #fi # end include wrapper
 
-if program_exists xmonad; then
+if program_exists xmonad && program_exists ck-launch-session; then
     exec ck-launch-session dbus-launch --sh-syntax --exit-with-session xmonad
 else
-    echo "ERROR: SUCCESSFULLY LAUNCHED X, BUT NO XMONAD EXECUTABLE EXISTS."
+    echo "ERROR: SUCCESSFULLY LAUNCHED X, BUT NO XMONAD/CONSOLEKIT EXECUTABLE EXISTS."
 fi
