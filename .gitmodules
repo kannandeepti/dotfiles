@@ -1,3 +1,6 @@
 [submodule "dotfiles/liquidprompt"]
 	path = dotfiles/liquidprompt
 	url = https://github.com/nojhan/liquidprompt.git
+[submodule "dotfiles/tmux/plugins/tpm"]
+	path = dotfiles/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm

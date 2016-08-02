@@ -15,3 +15,4 @@ dotfiles/config/google-chrome/
 dotfiles/vim/obsession.session
 *~
 dotfiles/vim/plugged
+dotfiles/tmux/plugins
