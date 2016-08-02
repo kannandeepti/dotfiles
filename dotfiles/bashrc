@@ -47,12 +47,12 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
@@ -119,7 +119,9 @@ fi
 export EDITOR=vim
 
 # my prompt needs tweaking
-PS1="\[\`if [[ \$? = "0" ]]; then echo '\e[32m\h\e[0m'; else echo '\e[31m\h\e[0m' ; fi\`:\w\n\`if [[ \\\`whoami\\\` == "root" ]]; then echo '#'; else echo '\$'; fi\` "
+#PS1="\[\`if [[ \$? = "0" ]]; then echo '\e[32m\h\e[0m'; else echo '\e[31m\h\e[0m' ; fi\`:\w\n\`if [[ \\\`whoami\\\` == "root" ]]; then echo '#'; else echo '\$'; fi\` "
+# use liquidprompt instead of my custom prompt?
+source ~/developer/dotfiles/dotfiles/liquidprompt/liquidprompt
 
 if [ -f ~/.set_path ]; then
     . ~/.set_path
