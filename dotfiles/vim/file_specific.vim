@@ -61,6 +61,12 @@ au FileType vim set foldmethod=marker
 
 augroup END
 
+" Highlight fortran source in modern style
+let fortran_free_source=1
+let fortran_have_tabs=1
+let fortran_more_precise=1
+let fortran_do_enddo=1
+
 
 command! OrgSafelyPullRemoteChanges call <SID>org_pull_from_origin()
 function! <SID>org_pull_from_origin()
