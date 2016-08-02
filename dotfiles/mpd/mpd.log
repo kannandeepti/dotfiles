@@ -1,0 +1,3 @@
+Aug 02 11:48 : state_file: failed to open /home/bbeltr1/.mpd/state: No such file or directory
+Aug 02 11:48 : avahi: Service 'Music Player' successfully established.
+Aug 02 11:48 : alsa_mixer: Failed to read mixer for 'My ALSA Device': no such mixer control: PCM
