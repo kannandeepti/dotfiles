@@ -56,8 +56,8 @@ set guioptions-=L
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Turn persistent undo on
 "    means that you can undo even when you close a buffer/VIM
-if empty(glob('~/.vim/temp_dirs/undodir'))
-    call mkdir('~/.vim/temp_dirs/undodir', 'p')
+if empty(glob($HOME."/.vim/temp_dirs/undodir"))
+    call mkdir($HOME."/.vim/temp_dirs/undodir", "p")
 endif
 set undodir=~/.vim/temp_dirs/undodir
 set undofile

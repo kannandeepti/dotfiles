@@ -124,8 +124,8 @@ let g:ctrlp_switch_buffer = 'E'
 " cache file names between vim sessions
 let g:ctrlp_clear_cache_on_exit = 0
 " using platform-independent spot for cache
-if empty(glob('~/.vim/temp_dirs/ctrlp'))
-    call mkdir('~/.vim/temp_dirs/ctrlp', 'p')
+if empty(glob($HOME."/.vim/temp_dirs/ctrlp"))
+    call mkdir($HOME."/.vim/temp_dirs/ctrlp", "p")
 endif
 let g:ctrlp_cache_dir = $HOME.'/.vim/temp_dirs/ctrlp'
 " alt-opening with <c-y> in splits or tabs
