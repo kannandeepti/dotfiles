@@ -58,3 +58,4 @@
 *.sqlite
 .ipython/profile_default/security
 .viminfo.*
+dotfiles/vim/plugged

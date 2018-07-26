@@ -175,7 +175,7 @@ set autoindent
 set linebreak
 set textwidth=80
 
-set si "Smart indent
+set nosmartindent
 set wrap "Wrap lines
 
 
@@ -331,7 +331,7 @@ nnoremap q: :q
 command! Q q
 
 " catchall cleanup
-nnoremap <leader><cr> <C-c>:noh<cr>:redraw!<cr>
+nnoremap <leader><cr> <C-c>:call DeleteTrailingWS()<cr>:noh<cr>:redraw!<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => netrw config

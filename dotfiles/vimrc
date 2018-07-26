@@ -176,7 +176,9 @@ let g:airline_theme="luna"
 set laststatus=2
 let g:airline_powerline_fonts = 1
 set term=screen-256color
-colorscheme desert
+" colorscheme desert
+set background=dark
+colorscheme PaperColor
 "set encoding=utf-8
 "set guifont=Fira\ Mono\ Medium\ for\ Powerline:h9
 "}}}
@@ -269,22 +271,22 @@ elseif has("unix") || has("linux")
         noremap  <silent> <M-l> :TmuxNavigateRight<cr>
         noremap  <silent> <M-\> :TmuxNavigatePrevious<cr>
     " in stock vim, we have to co-op the escape mode to map alt-j
-    else
-        cnoremap <silent> h <C-c>:TmuxNavigateLeft<cr>
-        cnoremap <silent> j <C-c>:TmuxNavigateDown<cr>
-        cnoremap <silent> k <C-c>:TmuxNavigateUp<cr>
-        cnoremap <silent> l <C-c>:TmuxNavigateRight<cr>
-        cnoremap <silent> \ <C-c>:TmuxNavigatePrevious<cr>
-        inoremap <silent> h <C-c>:TmuxNavigateLeft<cr>
-        inoremap <silent> j <C-c>:TmuxNavigateDown<cr>
-        inoremap <silent> k <C-c>:TmuxNavigateUp<cr>
-        inoremap <silent> l <C-c>:TmuxNavigateRight<cr>
-        inoremap <silent> \ <C-c>:TmuxNavigatePrevious<cr>
-        noremap  <silent> h :TmuxNavigateLeft<cr>
-        noremap  <silent> j :TmuxNavigateDown<cr>
-        noremap  <silent> k :TmuxNavigateUp<cr>
-        noremap  <silent> l :TmuxNavigateRight<cr>
-        noremap  <silent> \ :TmuxNavigatePrevious<cr>
+    " else
+    "     cnoremap <silent> h <C-c>:TmuxNavigateLeft<cr>
+    "     cnoremap <silent> j <C-c>:TmuxNavigateDown<cr>
+    "     cnoremap <silent> k <C-c>:TmuxNavigateUp<cr>
+    "     cnoremap <silent> l <C-c>:TmuxNavigateRight<cr>
+    "     cnoremap <silent> \ <C-c>:TmuxNavigatePrevious<cr>
+    "     inoremap <silent> h <C-c>:TmuxNavigateLeft<cr>
+    "     inoremap <silent> j <C-c>:TmuxNavigateDown<cr>
+    "     inoremap <silent> k <C-c>:TmuxNavigateUp<cr>
+    "     inoremap <silent> l <C-c>:TmuxNavigateRight<cr>
+    "     inoremap <silent> \ <C-c>:TmuxNavigatePrevious<cr>
+    "     noremap  <silent> h :TmuxNavigateLeft<cr>
+    "     noremap  <silent> j :TmuxNavigateDown<cr>
+    "     noremap  <silent> k :TmuxNavigateUp<cr>
+    "     noremap  <silent> l :TmuxNavigateRight<cr>
+    "     noremap  <silent> \ :TmuxNavigatePrevious<cr>
     endif
 endif
 "}}}
@@ -406,6 +408,10 @@ map <silent> <leader>jk <Plug>(IPy-WordObjInfo)
 map <silent> <leader>j<c-c> <Plug>(IPy-Interrupt)
 map <silent> <leader>j<c-d> <Plug>(IPy-Terminate)
 
+"}}}
+"
+"{{{ => UndoTree (panel to visualize Vim's "undo tree")
+nmap <leader>u :UndotreeToggle<Cr>
 "}}}
 
 "}}}
