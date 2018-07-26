@@ -1,4 +1,0 @@
-d1 = loss_function('-log(scaled1norm2(meansandcvs1))', cells)';
-d2 = loss_function('-log(scaled1norm2(meansandcvs1))', sim)';
-err = abs(d2 - d1)./d1;
-fprintf('mean Lb: %f\nmean deltaL: %f\nmean alpha: %f\nmean DR: %f\nmean deltaT: %f\ncv Lb: %f\ncv deltaL: %f\ncv alpha: %f\ncv DR: %f\ncv deltaT', err(1), err(2), err(3), err(4), err(5), err(6), err(7), err(8), err(9), err(10));

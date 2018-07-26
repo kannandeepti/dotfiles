@@ -1,9 +1,0 @@
-#!/bin/sh
-# Script to configure X, start common apps, and start xmonad.
-# Author: Vic Fryzel
-# http://github.com/vicfryzel/xmonad-config
-
-# when you're using GDM, this is redundant. With nodm, this is necessary.
-. ~/.xinitrc
-
-exec ck-launch-session dbus-launch --sh-syntax --exit-with-session xmonad
