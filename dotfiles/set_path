@@ -1,5 +1,8 @@
 # This file contains all the manual additions to my path I have to make
 
+# miniconda
+export PATH="~/miniconda3:${PATH}"
+
 # I like begin able to execute things in the working directory with highest
 # priority
 export PATH=".:~/bin:${PATH}"
