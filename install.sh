@@ -52,9 +52,6 @@ done
 echo "Would you like to install dependencies? (Y/n)"
 read answer
 if [[ -z "$answer" || $answer =~ "y" || $answer =~ "Y" ]]; then
-    sudo apt-get install mpd
-    sudo update-rc.d mpd disable
-    sudo apt-get install ncmpcpp
     sudo apt-get install tmux
     sudo apt-get install xclip
     sudo apt-get install vim-gtk
